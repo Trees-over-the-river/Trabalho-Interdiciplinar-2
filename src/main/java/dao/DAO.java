@@ -1,34 +1,33 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DAO implements AutoCloseable {
 	protected Connection conexao;
-	
-	public DAO() {
-		conexao = null;
+	public final String serverName;
+	public final String mydatabase;
+
+	public final String username;
+	public final String password;
+
+
+	public DAO(String serverName, String mydatabase, String username, String password) {
+		this.serverName = serverName;
+		this.mydatabase = mydatabase;
+		this.username = username;
+		this.password = password;
 	}
-	
-	public boolean conectar() {
-		String driverName = "org.postgresql.Driver";                    
-		String serverName = "localhost";
-		String mydatabase = "teste";
+
+	public boolean conectar() throws SQLException {
 		int porta = 5432;
 		String url = "jdbc:postgresql://" + serverName + ":" + porta +"/" + mydatabase;
-		String username = "ti2cc";
-		String password = "ti@cc";
 		boolean status = false;
 
-		try {
-			Class.forName(driverName);
-			conexao = DriverManager.getConnection(url, username, password);
-			status = (conexao != null);
-			System.out.println("Conexão efetuada com o postgres!");
-		} catch (ClassNotFoundException e) { 
-			System.err.println("Conexão NÃO efetuada com o postgres -- Driver não encontrado -- " + e.getMessage());
-		} catch (SQLException e) {
-			System.err.println("Conexão NÃO efetuada com o postgres -- " + e.getMessage());
-		}
+		conexao = DriverManager.getConnection(url, username, password);
+		status = (conexao != null);
+		System.out.println("Conexão efetuada com o postgres em " + url + " na tabela "+ mydatabase + "!");
 
 		return status;
 	}
