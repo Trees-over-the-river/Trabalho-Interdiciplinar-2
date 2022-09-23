@@ -29,7 +29,7 @@ class UsuarioDAOTest {
 
     @Test
     void getID() throws SQLException {
-        usuarioDAO.getID(3);
+        usuarioDAO.getByID(3);
     }
 
     @Test

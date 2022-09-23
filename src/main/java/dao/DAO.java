@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DAO implements AutoCloseable {
+
 	protected Connection conexao;
 	public final String serverName;
 	public final String mydatabase;
@@ -32,6 +33,9 @@ public class DAO implements AutoCloseable {
 		return status;
 	}
 
+	public Connection getConexao() {
+		return conexao;
+	}
 
 	@Override
 	public void close() throws SQLException {

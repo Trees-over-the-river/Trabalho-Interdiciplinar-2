@@ -5,11 +5,8 @@ import model.Usuario;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 public class UsuarioDAO  {
 
@@ -22,30 +19,47 @@ public class UsuarioDAO  {
 
     public List<Usuario> getAll() throws SQLException {
         PreparedStatement statement = dao.conexao.prepareStatement("SELECT * FROM usuario");
-        ResultSet resultSet = statement.executeQuery();
 
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Usuario> usuarios = parseUsuario(statement.executeQuery());
 
-        while (resultSet.next()) {
-            usuarios.add(new Usuario(
-                    resultSet.getInt("id"),
-                    resultSet.getString("email"),
-                    resultSet.getString("username"),
-                    resultSet.getString("senha"),
-                    resultSet.getString("nome"),
-                    resultSet.getString("sobrenome"),
-                    resultSet.getBytes("avatar")));
-        }
+        statement.close();
 
 
         return usuarios;
     }
 
-    public List<Usuario> getID(int id) throws SQLException {
+
+
+    public int update(Usuario usuario) throws SQLException {
+
+
+
+        PreparedStatement statement = dao.conexao.prepareStatement(
+            "UPDATE usuario " +
+            "SET email = ?, username = ?, senha = ?, nome = ?, sobrenome = ?, avatar = ?" +
+            "WHERE id = ?"
+        );
+
+        statement.setString(1, usuario.getEmail());
+        statement.setString(2, usuario.getUsername());
+        statement.setString(3, hashPassword(usuario.getSenha()));
+        statement.setString(4, usuario.getNome());
+        statement.setString(5, usuario.getSobrenome());
+        statement.setBytes(6, usuario.getAvatar());
+        statement.setInt(7, usuario.getID());
+
+        return statement.executeUpdate();
+    }
+
+    public List<Usuario> getByID(int id) throws SQLException {
         PreparedStatement statement = dao.conexao.prepareStatement("SELECT * FROM usuario WHERE id = ?");
         statement.setInt(1, id);
-        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Usuario> usuarios = parseUsuario(statement.executeQuery());
 
+        return usuarios;
+    }
+
+    private static ArrayList<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
 
         while (resultSet.next()) {
@@ -58,8 +72,6 @@ public class UsuarioDAO  {
                     resultSet.getString("sobrenome"),
                     resultSet.getBytes("avatar")));
         }
-
-
         return usuarios;
     }
 
