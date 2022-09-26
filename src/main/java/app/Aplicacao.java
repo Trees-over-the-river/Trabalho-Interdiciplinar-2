@@ -7,7 +7,6 @@ import dao.UsuarioDAO;
 import org.apache.http.MethodNotSupportedException;
 import service.FilmeService;
 import service.UsuarioService;
-import spark.Spark;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,43 +36,49 @@ public class Aplicacao {
         Logger logger = Logger.getLogger("Logger");
         FileHandler fileHandler;
 
-        fileHandler = new FileHandler("src/main/resources/Log.log");
+        fileHandler = new FileHandler("src/main/resources/logs/Log_%g.log");
         logger.addHandler(fileHandler);
         fileHandler.setFormatter(new SimpleFormatter());
 
 
         port(port);
 
+        staticFiles.location("/public");
 
 
         logger.info("Starting the server at http://localhost:" + port);
 
+        defaultResponseTransformer(gson::toJson);
 
-        Spark.defaultResponseTransformer(gson::toJson);
 
 
-       path("/usuario/", () -> {
-           path(":id", () -> {
-               get("/", usuarioService::getUsuarioByID);
-               put("nome", usuarioService::updateNome);
-               put("username", usuarioService::updateUsername);
-               put("email", usuarioService::updateEmail);
-               put("avatar", usuarioService::updateAvatar);
-               put("senha", usuarioService::updateSenha);
-               post("analitics/categoria", usuarioService::insertCategoriaPreferecia);
-               delete("/", usuarioService::deleteUsuario);
-           });
+        path("/usuario/", () -> {
+            path(":id", () -> {
+                before((request, response) -> {
+                    if (!usuarioService.isAuthenticated(request.cookie("login_token"))) halt(403);
+                });
+                get("/", usuarioService::getUsuarioByID);
+                put("nome", usuarioService::updateNome);
+                put("username", usuarioService::updateUsername);
+                put("email", usuarioService::updateEmail);
+                put("avatar", usuarioService::updateAvatar);
+                put("senha", usuarioService::updateSenha);
+                post("analitics/categoria", usuarioService::insertCategoriaPreferecia);
+                delete("/", usuarioService::deleteUsuario);
+            });
 
-          post("login", usuarioService::login);
-          post("logon", usuarioService::logon);
-       });
+            post("login", usuarioService::login);
+            post("logon", usuarioService::logon);
+        });
 
-       path("/filme/:id", () -> {
+
+
+        path("/filme/:id", () -> {
           get("/", filmeService::getFilmeByID);
           get("avaliacoes", filmeService::getAvaliacoes);
           post("avaliacao", filmeService::replaceAvaliacao);
           get("categorias", filmeService::getCategoriasOfFilme);
-       });
+        });
 
         exception(IllegalArgumentException.class, (e, request, response) ->
                 response.status(400));

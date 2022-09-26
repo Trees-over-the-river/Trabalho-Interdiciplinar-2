@@ -15,6 +15,7 @@ import java.util.Map;
 public class UsuarioService {
 
     private final UsuarioDAO usuarioDAO;
+    private final Map<String, Integer> auth_tokens = new HashMap<>(1024);
 
     public UsuarioService(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
@@ -70,5 +71,9 @@ public class UsuarioService {
 
     public Object logon(Request request, Response response) throws MethodNotSupportedException {
         throw new MethodNotSupportedException("");
+    }
+
+    public boolean isAuthenticated(String login_token) {
+        return auth_tokens.containsKey(login_token);
     }
 }
