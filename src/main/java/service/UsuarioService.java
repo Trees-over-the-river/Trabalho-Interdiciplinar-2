@@ -4,9 +4,7 @@ package service;
 import com.google.gson.Gson;
 import dao.CategoriaDAO;
 import dao.UsuarioDAO;
-import model.Categoria;
 import model.Usuario;
-import org.apache.http.MethodNotSupportedException;
 import responses.StandardErrorResponse;
 import responses.StandardSuccessResponse;
 import spark.Request;
@@ -15,16 +13,12 @@ import spark.Response;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class UsuarioService {
 
 
-    public static final String COOKIE_NAME = "auth-token";
     private final UsuarioDAO usuarioDAO;
     private final CategoriaDAO categoriaDAO;
-    private final Map<String, Integer> auth_tokens = new HashMap<>(1024);
 
     public UsuarioService(UsuarioDAO usuarioDAO, CategoriaDAO categoriaDAO) {
         this.usuarioDAO = usuarioDAO;
@@ -34,7 +28,7 @@ public class UsuarioService {
 
 
     public Object getUsuario(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
 
         Usuario usuario = usuarioDAO.getByID(id);
 
@@ -48,7 +42,7 @@ public class UsuarioService {
     }
 
     public Object updateNome(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
         var body = new Gson().fromJson(request.body(), HashMap.class);
 
         try {
@@ -64,7 +58,7 @@ public class UsuarioService {
     }
 
     public Object updateUsername(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
 
         try {
             usuarioDAO.updateUsername(id, (String) new Gson().fromJson(request.body(), HashMap.class).get("username"));
@@ -78,7 +72,7 @@ public class UsuarioService {
     }
 
     public Object updateEmail(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
 
         try {
             usuarioDAO.updateEmail(id, (String) new Gson().fromJson(request.body(), HashMap.class).get("email"));
@@ -92,7 +86,7 @@ public class UsuarioService {
     }
 
     public Object updateAvatar(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
 
         try {
             usuarioDAO.updateAvatar(id, Base64.getDecoder().decode((String) new Gson().fromJson(request.body(), HashMap.class).get("avatar")));
@@ -106,7 +100,7 @@ public class UsuarioService {
     }
 
     public Object updateSenha(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
 
         try {
             usuarioDAO.updatePassword(id, (String) new Gson().fromJson(request.body(), HashMap.class).get("senha"));
@@ -119,16 +113,10 @@ public class UsuarioService {
         return new StandardSuccessResponse("Usuário alterado");
     }
 
-    public Object insertCategoriaPreferida(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
-
-        categoriaDAO.insert(id, Integer.parseInt(request.params(":id")));
-        return new StandardSuccessResponse("Categoria inserida com sucesso");
-    }
-
     public Object deleteUsuario(Request request, Response response) throws SQLException {
-        int id = auth_tokens.remove(request.cookie(COOKIE_NAME));
+        int id = request.session().attribute("id");
         usuarioDAO.delete(id);
+        request.session(false);
 
         return new StandardSuccessResponse("Usuário removido com sucesso");
     }
@@ -139,9 +127,7 @@ public class UsuarioService {
         Usuario usuario = usuarioDAO.authenticate(body.get("email").toString(), body.get("senha").toString());
 
         if (usuario != null) {
-            UUID uuid = UUID.randomUUID();
-            response.cookie(COOKIE_NAME, uuid.toString());
-            auth_tokens.put(uuid.toString(), usuario.getId());
+            request.session().attribute("id", usuario.getId());
             return new StandardSuccessResponse("Logado");
         }
 
@@ -149,38 +135,16 @@ public class UsuarioService {
         return new StandardErrorResponse("Usuário inexistente");
     }
 
-    public Object logon(Request request, Response response) throws SQLException {
+    public Object logon(Request request, Response response) {
         var usuario = new Gson().fromJson(request.body(), Usuario.class);
 
-        if (usuarioDAO.insert(usuario)) {
+        try  {
+            usuarioDAO.insert(usuario);
             return new StandardSuccessResponse("Sucesso ao criar usuário");
-        } else {
+        } catch (SQLException e){
+            response.status(400);
             return new StandardErrorResponse("Erro ao criar usuário");
         }
-
-    }
-
-    public int getLoggedUser(String login_token) {
-        return auth_tokens.getOrDefault(login_token, -1);
-    }
-
-    public Object deleteCategoriaPrefererida(Request request, Response response) throws MethodNotSupportedException, SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
-
-        categoriaDAO.delete(id, Integer.parseInt(request.params(":id")));
-        return new StandardSuccessResponse("Categoria inserida com sucesso");
-    }
-
-    public Object listCategoriasPreferidas(Request request, Response response) throws SQLException {
-        int id = getLoggedUser(request.cookie(COOKIE_NAME));
-
-        Map<Integer, String> categorias = new HashMap<>();
-
-        for (Categoria categoria : categoriaDAO.list(id)) {
-            categorias.put(categoria.getId(), categoria.getNome());
-        }
-
-        return new StandardSuccessResponse(categorias);
 
     }
 }

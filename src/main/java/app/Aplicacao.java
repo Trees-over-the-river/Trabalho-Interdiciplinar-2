@@ -7,6 +7,8 @@ import dao.DAO;
 import dao.FilmeDAO;
 import dao.UsuarioDAO;
 import org.apache.http.MethodNotSupportedException;
+import responses.StandardSuccessResponse;
+import service.CategoriaService;
 import service.FilmeService;
 import service.UsuarioService;
 
@@ -30,6 +32,8 @@ public class Aplicacao {
     private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
     private static final FilmeService filmeService = new FilmeService(new FilmeDAO(dao));
 
+    private static final CategoriaService categoriaService = new CategoriaService(new CategoriaDAO(dao));
+
     private static final int port = 25565;
 
 
@@ -48,6 +52,12 @@ public class Aplicacao {
         staticFiles.location("/public");
 
 
+        get("/",(request, response) -> {
+            response.redirect("/front-end/index.html");
+            return new StandardSuccessResponse(null);
+        });
+
+
         logger.info("Starting the server at http://localhost:" + port);
 
         defaultResponseTransformer(gson::toJson);
@@ -55,7 +65,7 @@ public class Aplicacao {
         path("/api", () -> {
             path("/usuario", () -> {
                 before("/*", (request, response) -> {
-                   if (usuarioService.getLoggedUser(request.cookie(UsuarioService.COOKIE_NAME)) == -1) halt(403);
+                   if (request.session().attribute("id") == null) halt(403);
                 });
                 get("/", usuarioService::getUsuario);
                 put("/nome", usuarioService::updateNome);
@@ -65,9 +75,28 @@ public class Aplicacao {
                 put("/senha", usuarioService::updateSenha);
                 delete("/", usuarioService::deleteUsuario);
                 path("/categoria", () -> {
-                   get("/", usuarioService::listCategoriasPreferidas);
-                   post("/:id", usuarioService::insertCategoriaPreferida);
-                   delete("/:id", usuarioService::deleteCategoriaPrefererida);
+                   get("/", categoriaService::listPreferidas);
+                   path("/:id", () -> {
+                       post("/", categoriaService::insertPreferida);
+                       delete("/", categoriaService::deletePrefererida);
+                   });
+                });
+                path("/filmes", () -> {
+                    path("/assistidos", () -> {
+                        get("/", filmeService::usuarioAssistidos);
+                        post("/:id", filmeService::insertUsuarioAssistidos);
+                        delete("/:id", filmeService::deleteUsuarioAssistidos);
+                    });
+                    path("/avaliados", () -> {
+                        path("/:id", () -> {
+                            get("/", filmeService::usuarioAvaliacao);
+                            delete("/", filmeService::usuarioDeleteAvaliacao);
+                            put("/rating", filmeService::usuarioAvaliacaoRating);
+                            put("/like", filmeService::usuarioAvaliacaoLike);
+                            put("/feedback", filmeService::usuarioAvaliacaoFeedBack);
+                            post("/", filmeService::insertUsuarioAvaliacao);
+                        });
+                    });
                 });
             });
 
@@ -76,10 +105,9 @@ public class Aplicacao {
 
 
             path("/filme/:id", () -> {
-                get("", filmeService::getFilmeByID);
-                get("/avaliacoes", filmeService::getAvaliacoes);
-                post("/avaliacao", filmeService::replaceAvaliacao);
-                get("/categorias", filmeService::getCategoriasOfFilme);
+                get("/avaliacoes", filmeService::listAvaliacoes);
+                delete("/", filmeService::deleteFilme);
+                get("/categorias", filmeService::listCategorias);
             });
         });
 
