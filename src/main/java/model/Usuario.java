@@ -5,88 +5,97 @@ import java.util.Objects;
 
 public class Usuario {
 
-    private int ID;
-    private String Email;
-    private String Username;
-    private String Senha;
-    private String Nome;
-    private String Sobrenome;
+    private Integer ID;
+    private String email;
+    private String username;
+    private String senha;
+    private String nome = null;
+    private String sobrenome = null;
 
-    private byte[] Avatar;
+    private byte[] avatar;
 
     public Usuario() {
     }
 
     public Usuario(String email, String username, String senha) {
-        Email = email;
-        Username = username;
-        Senha = senha;
+        this.email = email;
+        this.username = username;
+        this.senha = senha;
+    }
+
+    public Usuario(String email, String username, String senha, String nome, String sobrenome, byte[] avatar) {
+        this.email = email;
+        this.username = username;
+        this.senha = senha;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.avatar = avatar;
     }
 
     public Usuario(int ID, String email, String username, String senha, String nome, String sobrenome, byte[] avatar) {
         this.ID = ID;
-        Email = email;
-        Username = username;
-        Senha = senha;
-        Nome = nome;
-        Sobrenome = sobrenome;
-        Avatar = avatar;
+        this.email = email;
+        this.username = username;
+        this.senha = senha;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.avatar = avatar;
     }
 
     public byte[] getAvatar() {
-        return Avatar;
+        return avatar;
     }
 
     public void setAvatar(byte[] avatar) {
-        Avatar = avatar;
+        this.avatar = avatar;
     }
 
     public int getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 
     public String getSenha() {
-        return Senha;
+        return senha;
     }
 
     public void setSenha(String senha) {
-        Senha = senha;
+        this.senha = senha;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public String getSobrenome() {
-        return Sobrenome;
+        return sobrenome;
     }
 
     public void setSobrenome(String sobrenome) {
-        Sobrenome = sobrenome;
+        this.sobrenome = sobrenome;
     }
 
     @Override
@@ -94,13 +103,13 @@ public class Usuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return ID == usuario.ID && Email.equals(usuario.Email) && Username.equals(usuario.Username) && Senha.equals(usuario.Senha) && Objects.equals(Nome, usuario.Nome) && Objects.equals(Sobrenome, usuario.Sobrenome) && Arrays.equals(Avatar, usuario.Avatar);
+        return Objects.equals(ID, usuario.ID) && email.equals(usuario.email) && username.equals(usuario.username) && senha.equals(usuario.senha) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Arrays.equals(avatar, usuario.avatar);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(ID, Email, Username, Senha, Nome, Sobrenome);
-        result = 31 * result + Arrays.hashCode(Avatar);
+        int result = Objects.hash(ID, email, username, senha, nome, sobrenome);
+        result = 31 * result + Arrays.hashCode(avatar);
         return result;
     }
 
@@ -108,12 +117,12 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 "ID=" + ID +
-                ", Email='" + Email + '\'' +
-                ", Username='" + Username + '\'' +
-                ", Senha='" + Senha + '\'' +
-                ", Nome='" + Nome + '\'' +
-                ", Sobrenome='" + Sobrenome + '\'' +
-                ", Avatar=" + Arrays.toString(Avatar) +
+                ", Email='" + email + '\'' +
+                ", Username='" + username + '\'' +
+                ", Senha='" + senha + '\'' +
+                ", Nome='" + nome + '\'' +
+                ", Sobrenome='" + sobrenome + '\'' +
+                ", Avatar=" + Arrays.toString(avatar) +
                 '}';
     }
 }

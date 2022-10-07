@@ -1,6 +1,7 @@
 package app;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.DAO;
 import dao.FilmeDAO;
 import dao.UsuarioDAO;
@@ -24,11 +25,11 @@ public class Aplicacao {
             "ti2cc",
             "ti@cc");
 
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().serializeNulls().create();
     private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao));
     private static final FilmeService filmeService = new FilmeService(new FilmeDAO(dao));
 
-    private static final int port = 6789;
+    private static final int port = 25565;
 
 
     public static void main(String[] args) throws IOException {
@@ -37,8 +38,8 @@ public class Aplicacao {
         FileHandler fileHandler;
 
         fileHandler = new FileHandler("src/main/resources/logs/Log_%g.log");
-        logger.addHandler(fileHandler);
         fileHandler.setFormatter(new SimpleFormatter());
+        logger.addHandler(fileHandler);
 
 
         port(port);
@@ -50,35 +51,34 @@ public class Aplicacao {
 
         defaultResponseTransformer(gson::toJson);
 
-
-
-        path("/usuario/", () -> {
-            path(":id", () -> {
-                before((request, response) -> {
-                    if (!usuarioService.isAuthenticated(request.cookie("login_token"))) halt(403);
+        path("/api", () -> {
+            path("/usuario", () -> {
+                before("/*", (request, response) -> {
+                   if (usuarioService.getLoggedUser(request.cookie(UsuarioService.COOKIE_NAME)) == -1) halt(403);
                 });
-                get("/", usuarioService::getUsuarioByID);
-                put("nome", usuarioService::updateNome);
-                put("username", usuarioService::updateUsername);
-                put("email", usuarioService::updateEmail);
-                put("avatar", usuarioService::updateAvatar);
-                put("senha", usuarioService::updateSenha);
-                post("analitics/categoria", usuarioService::insertCategoriaPreferecia);
+                get("/", usuarioService::getUsuario);
+                put("/nome", usuarioService::updateNome);
+                put("/username", usuarioService::updateUsername);
+                put("/email", usuarioService::updateEmail);
+                put("/avatar", usuarioService::updateAvatar);
+                put("/senha", usuarioService::updateSenha);
+                post("/analitics/categoria", usuarioService::insertCategoriaPreferecia);
+                delete("/analitics/categodia", usuarioService::deleteCategoriaPreferencia);
                 delete("/", usuarioService::deleteUsuario);
             });
 
-            post("login", usuarioService::login);
-            post("logon", usuarioService::logon);
+            post("/login", usuarioService::login);
+            post("/logon", usuarioService::logon);
+
+
+            path("/filme/:id", () -> {
+                get("", filmeService::getFilmeByID);
+                get("/avaliacoes", filmeService::getAvaliacoes);
+                post("/avaliacao", filmeService::replaceAvaliacao);
+                get("/categorias", filmeService::getCategoriasOfFilme);
+            });
         });
 
-
-
-        path("/filme/:id", () -> {
-          get("/", filmeService::getFilmeByID);
-          get("avaliacoes", filmeService::getAvaliacoes);
-          post("avaliacao", filmeService::replaceAvaliacao);
-          get("categorias", filmeService::getCategoriasOfFilme);
-        });
 
         exception(IllegalArgumentException.class, (e, request, response) ->
                 response.status(400));

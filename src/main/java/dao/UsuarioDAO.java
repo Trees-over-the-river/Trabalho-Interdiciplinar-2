@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UsuarioDAO  {
 
-    private DAO dao;
+    private final DAO dao;
 
     public UsuarioDAO(DAO dao) {
         this.dao = dao;
@@ -31,7 +31,7 @@ public class UsuarioDAO  {
 
 
 
-    public int update(Usuario usuario) throws SQLException {
+    public boolean update(Usuario usuario) throws SQLException {
 
         int updatedRows;
 
@@ -51,17 +51,17 @@ public class UsuarioDAO  {
             updatedRows = statement.executeUpdate();
 
         }
-        return updatedRows;
+        return updatedRows == 1;
     }
 
-    public List<Usuario> getByID(int id) throws SQLException {
+    public Usuario getByID(int id) throws SQLException {
         ArrayList<Usuario> usuarios;
-        try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario WHERE id = ?")) {
+        try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario WHERE id = ? LIMIT 1")) {
             statement.setInt(1, id);
             usuarios = parseUsuario(statement.executeQuery());
         }
 
-        return usuarios;
+        return (usuarios.size() > 0)? usuarios.get(0) : null;
     }
 
     private static ArrayList<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
@@ -80,8 +80,7 @@ public class UsuarioDAO  {
         return usuarios;
     }
 
-    public int insert(Usuario usuario) throws SQLException {
-        int insertRows;
+    public boolean insert(Usuario usuario) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "INSERT INTO usuario (email, username, senha, nome, sobrenome, avatar) VALUES(?, ?, ?, ?, ?, ?)"
         )) {
@@ -92,14 +91,13 @@ public class UsuarioDAO  {
             statement.setString(5, usuario.getSobrenome());
             statement.setBytes(6, usuario.getAvatar());
 
-            insertRows = statement.executeUpdate();
+            return statement.executeUpdate() == 1;
         }
-        return insertRows;
     }
 
 
-    public String hashPassword(String senha) {
-        MessageDigest m= null;
+    public static String hashPassword(String senha) {
+        MessageDigest m;
         try {
             m = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
@@ -109,4 +107,115 @@ public class UsuarioDAO  {
         return new BigInteger(m.digest(senha.getBytes())).abs().toString(16);
 
     }
+
+    public Usuario authenticate(String email, String password) throws SQLException {
+        ArrayList<Usuario> usuarios;
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "SELECT * FROM usuario WHERE email = ? AND senha = ? LIMIT 1"
+        )) {
+            statement.setString(1, email);
+            statement.setString(2, hashPassword(password));
+
+            usuarios = parseUsuario(statement.executeQuery());
+        }
+
+        return (usuarios.size() > 0)? usuarios.get(0) : null;
+    }
+
+    public boolean updateNomeAndSobrenome(int id, String nome, String sobrenome) throws SQLException {
+        int updatedRows;
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "UPDATE usuario " +
+                        "SET nome = ?, sobrenome = ?" +
+                        "WHERE id = ?"
+        )) {
+
+            statement.setString(1, nome);
+            statement.setString(2, sobrenome);
+            statement.setInt(3, id);
+            updatedRows = statement.executeUpdate();
+
+        }
+        return updatedRows == 1;
+    }
+
+    public boolean updateUsername(int id, String username) throws SQLException {
+        int updatedRows;
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "UPDATE usuario " +
+                        "SET username = ?" +
+                        "WHERE id = ?"
+        )) {
+
+            statement.setString(1, username);
+            statement.setInt(2, id);
+            updatedRows = statement.executeUpdate();
+
+        }
+        return updatedRows == 1;
+    }
+
+    public boolean updateEmail(int id, String email) throws SQLException {
+        int updatedRows;
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "UPDATE usuario " +
+                        "SET email = ?" +
+                        "WHERE id = ?"
+        )) {
+
+            statement.setString(1, email);
+            statement.setInt(2, id);
+            updatedRows = statement.executeUpdate();
+
+        }
+        return updatedRows == 1;
+    }
+
+    public boolean updateAvatar(int id, byte[] avatar) throws SQLException {
+        int updatedRows;
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "UPDATE usuario " +
+                        "SET avatar = ?" +
+                        "WHERE id = ?"
+        )) {
+
+            statement.setBytes(1, avatar);
+            statement.setInt(2, id);
+            updatedRows = statement.executeUpdate();
+
+        }
+        return updatedRows == 1;
+    }
+
+    public boolean updatePassword(int id, String password) throws SQLException {
+        int updatedRows;
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "UPDATE usuario " +
+                        "SET senha = ?" +
+                        "WHERE id = ?"
+        )) {
+
+            statement.setString(1, hashPassword(password));
+            statement.setInt(2, id);
+            updatedRows = statement.executeUpdate();
+
+        }
+        return updatedRows == 1;
+    }
+
+    public void delete(int id) throws SQLException {
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "DELETE FROM usuario WHERE id = ?"
+        )) {
+
+            statement.setInt(1, id);
+             statement.executeUpdate();
+        }
+    }
+
 }

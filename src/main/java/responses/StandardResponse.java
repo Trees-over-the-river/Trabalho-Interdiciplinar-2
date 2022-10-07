@@ -1,22 +1,13 @@
 package responses;
 
-import com.google.gson.JsonElement;
-
 public class StandardResponse {
 
     private StatusResponse status;
-    private String message;
-    private JsonElement data;
+    private Object message;
 
-
-    public StandardResponse(StatusResponse status, String message) {
+    public StandardResponse(StatusResponse status, Object message) {
         this.status = status;
         this.message = message;
-    }
-
-    public StandardResponse(StatusResponse status, JsonElement data) {
-        this.status = status;
-        this.data = data;
     }
 
 
@@ -28,19 +19,13 @@ public class StandardResponse {
         this.status = status;
     }
 
-    public String getMessage() {
+    public Object getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(Object message) {
         this.message = message;
     }
 
-    public JsonElement getData() {
-        return data;
-    }
 
-    public void setData(JsonElement data) {
-        this.data = data;
-    }
 }
