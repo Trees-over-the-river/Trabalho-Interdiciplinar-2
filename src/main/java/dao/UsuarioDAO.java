@@ -21,7 +21,7 @@ public class UsuarioDAO  {
 
 
     public List<Usuario> getAll() throws SQLException {
-        ArrayList<Usuario> usuarios;
+        List<Usuario> usuarios;
         try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario")) {
             usuarios = parseUsuario(statement.executeQuery());
         }
@@ -47,7 +47,7 @@ public class UsuarioDAO  {
             statement.setString(4, usuario.getNome());
             statement.setString(5, usuario.getSobrenome());
             statement.setBytes(6, usuario.getAvatar());
-            statement.setInt(7, usuario.getID());
+            statement.setInt(7, usuario.getId());
             updatedRows = statement.executeUpdate();
 
         }
@@ -55,7 +55,7 @@ public class UsuarioDAO  {
     }
 
     public Usuario getByID(int id) throws SQLException {
-        ArrayList<Usuario> usuarios;
+        List<Usuario> usuarios;
         try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario WHERE id = ? LIMIT 1")) {
             statement.setInt(1, id);
             usuarios = parseUsuario(statement.executeQuery());
@@ -64,7 +64,7 @@ public class UsuarioDAO  {
         return (usuarios.size() > 0)? usuarios.get(0) : null;
     }
 
-    private static ArrayList<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
+    private static List<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
         ArrayList<Usuario> usuarios = new ArrayList<>();
 
         while (resultSet.next()) {
@@ -109,7 +109,7 @@ public class UsuarioDAO  {
     }
 
     public Usuario authenticate(String email, String password) throws SQLException {
-        ArrayList<Usuario> usuarios;
+        List<Usuario> usuarios;
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT * FROM usuario WHERE email = ? AND senha = ? LIMIT 1"
         )) {

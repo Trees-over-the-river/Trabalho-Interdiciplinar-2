@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Usuario {
 
-    private Integer ID;
+    private Integer id;
     private String email;
     private String username;
     private String senha;
@@ -32,8 +32,8 @@ public class Usuario {
         this.avatar = avatar;
     }
 
-    public Usuario(int ID, String email, String username, String senha, String nome, String sobrenome, byte[] avatar) {
-        this.ID = ID;
+    public Usuario(int id, String email, String username, String senha, String nome, String sobrenome, byte[] avatar) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.senha = senha;
@@ -50,12 +50,12 @@ public class Usuario {
         this.avatar = avatar;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -103,12 +103,12 @@ public class Usuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(ID, usuario.ID) && email.equals(usuario.email) && username.equals(usuario.username) && senha.equals(usuario.senha) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Arrays.equals(avatar, usuario.avatar);
+        return Objects.equals(id, usuario.id) && email.equals(usuario.email) && username.equals(usuario.username) && senha.equals(usuario.senha) && Objects.equals(nome, usuario.nome) && Objects.equals(sobrenome, usuario.sobrenome) && Arrays.equals(avatar, usuario.avatar);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(ID, email, username, senha, nome, sobrenome);
+        int result = Objects.hash(id, email, username, senha, nome, sobrenome);
         result = 31 * result + Arrays.hashCode(avatar);
         return result;
     }
@@ -116,7 +116,7 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", Email='" + email + '\'' +
                 ", Username='" + username + '\'' +
                 ", Senha='" + senha + '\'' +

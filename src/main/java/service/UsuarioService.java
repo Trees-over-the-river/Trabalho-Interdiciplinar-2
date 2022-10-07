@@ -2,7 +2,9 @@ package service;
 
 
 import com.google.gson.Gson;
+import dao.CategoriaDAO;
 import dao.UsuarioDAO;
+import model.Categoria;
 import model.Usuario;
 import org.apache.http.MethodNotSupportedException;
 import responses.StandardErrorResponse;
@@ -21,10 +23,12 @@ public class UsuarioService {
 
     public static final String COOKIE_NAME = "auth-token";
     private final UsuarioDAO usuarioDAO;
+    private final CategoriaDAO categoriaDAO;
     private final Map<String, Integer> auth_tokens = new HashMap<>(1024);
 
-    public UsuarioService(UsuarioDAO usuarioDAO) {
+    public UsuarioService(UsuarioDAO usuarioDAO, CategoriaDAO categoriaDAO) {
         this.usuarioDAO = usuarioDAO;
+        this.categoriaDAO = categoriaDAO;
     }
 
 
@@ -39,7 +43,7 @@ public class UsuarioService {
         }
 
         usuario.setSenha(null);
-        usuario.setID(null);
+        usuario.setId(null);
         return new StandardSuccessResponse(usuario);
     }
 
@@ -115,8 +119,11 @@ public class UsuarioService {
         return new StandardSuccessResponse("Usuário alterado");
     }
 
-    public Object insertCategoriaPreferecia(Request request, Response response) throws MethodNotSupportedException {
-        throw new MethodNotSupportedException("");
+    public Object insertCategoriaPreferida(Request request, Response response) throws SQLException {
+        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+
+        categoriaDAO.insert(id, Integer.parseInt(request.params(":id")));
+        return new StandardSuccessResponse("Categoria inserida com sucesso");
     }
 
     public Object deleteUsuario(Request request, Response response) throws SQLException {
@@ -134,7 +141,7 @@ public class UsuarioService {
         if (usuario != null) {
             UUID uuid = UUID.randomUUID();
             response.cookie(COOKIE_NAME, uuid.toString());
-            auth_tokens.put(uuid.toString(), usuario.getID());
+            auth_tokens.put(uuid.toString(), usuario.getId());
             return new StandardSuccessResponse("Logado");
         }
 
@@ -157,7 +164,23 @@ public class UsuarioService {
         return auth_tokens.getOrDefault(login_token, -1);
     }
 
-    public Object deleteCategoriaPreferencia(Request request, Response response) throws MethodNotSupportedException {
-        throw new MethodNotSupportedException("");
+    public Object deleteCategoriaPrefererida(Request request, Response response) throws MethodNotSupportedException, SQLException {
+        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+
+        categoriaDAO.delete(id, Integer.parseInt(request.params(":id")));
+        return new StandardSuccessResponse("Categoria inserida com sucesso");
+    }
+
+    public Object listCategoriasPreferidas(Request request, Response response) throws SQLException {
+        int id = getLoggedUser(request.cookie(COOKIE_NAME));
+
+        Map<Integer, String> categorias = new HashMap<>();
+
+        for (Categoria categoria : categoriaDAO.list(id)) {
+            categorias.put(categoria.getId(), categoria.getNome());
+        }
+
+        return new StandardSuccessResponse(categorias);
+
     }
 }

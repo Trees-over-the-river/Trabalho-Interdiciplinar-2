@@ -2,6 +2,7 @@ package app;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dao.CategoriaDAO;
 import dao.DAO;
 import dao.FilmeDAO;
 import dao.UsuarioDAO;
@@ -26,7 +27,7 @@ public class Aplicacao {
             "ti@cc");
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
-    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao));
+    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
     private static final FilmeService filmeService = new FilmeService(new FilmeDAO(dao));
 
     private static final int port = 25565;
@@ -62,9 +63,12 @@ public class Aplicacao {
                 put("/email", usuarioService::updateEmail);
                 put("/avatar", usuarioService::updateAvatar);
                 put("/senha", usuarioService::updateSenha);
-                post("/analitics/categoria", usuarioService::insertCategoriaPreferecia);
-                delete("/analitics/categodia", usuarioService::deleteCategoriaPreferencia);
                 delete("/", usuarioService::deleteUsuario);
+                path("/categoria", () -> {
+                   get("/", usuarioService::listCategoriasPreferidas);
+                   post("/:id", usuarioService::insertCategoriaPreferida);
+                   delete("/:id", usuarioService::deleteCategoriaPrefererida);
+                });
             });
 
             post("/login", usuarioService::login);
