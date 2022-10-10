@@ -1,6 +1,10 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Usuario {
@@ -42,6 +46,22 @@ public class Usuario {
         this.avatar = avatar;
     }
 
+
+    public static List<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+
+        while (resultSet.next()) {
+            usuarios.add(new Usuario(
+                    resultSet.getInt("id"),
+                    resultSet.getString("email"),
+                    resultSet.getString("username"),
+                    resultSet.getString("senha"),
+                    resultSet.getString("nome"),
+                    resultSet.getString("sobrenome"),
+                    resultSet.getBytes("avatar")));
+        }
+        return usuarios;
+    }
     public byte[] getAvatar() {
         return avatar;
     }

@@ -1,9 +1,10 @@
 package dao;
 
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbGenre;
 import model.Categoria;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +12,42 @@ import java.util.List;
 public class CategoriaDAO {
 
     final DAO dao;
+    private static final String TMDB_API_KEY = "881d144cf96ddeddcf2b7cb82f636d69";
 
 
     public CategoriaDAO(DAO dao) {
         this.dao = dao;
     }
 
-    public void insert(int id, int categoria_id) throws SQLException {
 
-        // TODO: Auto add categories if not present
+    public void updateCategorias() throws SQLException {
+        TmdbGenre genre = new TmdbApi(TMDB_API_KEY).getGenre();
+        var genres = genre.getGenreList("pt-br");
+
+        if (genres.size() > 0) {
+            try (PreparedStatement statement = dao.getConexao().prepareStatement("DELETE FROM public.categoria")) {
+                statement.executeUpdate();
+            }
+
+            List<String> values = new ArrayList<>(genres.size());
+            for (int i = 0; i < genres.size(); i++) {
+                values.add("(?,?)");
+            }
+
+
+            try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                    "INSERT INTO categoria (id, nome) VALUES" + String.join(",", values))) {
+                    for (int i = 0; i < genres.size(); i++) {
+                        statement.setInt(i*2+1, genres.get(i).getId());
+                        statement.setString(i*2+2, genres.get(i).getName());
+                    }
+
+                    statement.executeUpdate();
+            }
+        }
+    }
+
+    public void insertPreferencia(int id, int categoria_id) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "INSERT INTO usuario_prefere_categoria (categoria_id, usuario_id) VALUES(?, ?)"
         )) {
@@ -29,7 +57,7 @@ public class CategoriaDAO {
         }
     }
 
-    public void delete(int id, int categoria_id) throws SQLException {
+    public void deletePreferencia(int id, int categoria_id) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "DELETE FROM usuario_prefere_categoria WHERE categoria_id = ? AND usuario_id = ?"
         )) {
@@ -39,28 +67,15 @@ public class CategoriaDAO {
         }
     }
 
-    private List<Categoria> parseCategorias(ResultSet resultSet) throws SQLException {
-        List<Categoria> categorias = new ArrayList<>();
 
-
-        while (resultSet.next()) {
-            categorias.add(new Categoria(
-                    resultSet.getInt(1),
-                    resultSet.getString(2)
-                    ));
-        }
-
-        return categorias;
-    }
-
-    public List<Categoria> list(int id) throws SQLException {
+    public List<Categoria> listPreferencias(int id) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT categoria_id, nome FROM usuario_prefere_categoria " +
                         "JOIN categoria ON categoria.id = usuario_prefere_categoria.categoria_id " +
                         "WHERE usuario_prefere_categoria.usuario_id = ?"
         )) {
             statement.setInt(1, id);
-            return parseCategorias(statement.executeQuery());
+            return Categoria.parseCategorias(statement.executeQuery());
         }
     }
 }

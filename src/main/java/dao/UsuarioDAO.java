@@ -6,9 +6,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDAO  {
@@ -23,7 +21,7 @@ public class UsuarioDAO  {
     public List<Usuario> getAll() throws SQLException {
         List<Usuario> usuarios;
         try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario")) {
-            usuarios = parseUsuario(statement.executeQuery());
+            usuarios = Usuario.parseUsuario(statement.executeQuery());
         }
 
         return usuarios;
@@ -37,7 +35,7 @@ public class UsuarioDAO  {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "UPDATE usuario " +
-                        "SET email = ?, username = ?, senha = ?, nome = ?, sobrenome = ?, avatar = ?" +
+                        "SET email = ?, username = ?, senha = ?, nome = ?, sobrenome = ?, avatar = ? " +
                         "WHERE id = ?"
         )) {
 
@@ -56,29 +54,15 @@ public class UsuarioDAO  {
 
     public Usuario getByID(int id) throws SQLException {
         List<Usuario> usuarios;
-        try (PreparedStatement statement = dao.getConexao().prepareStatement("SELECT * FROM usuario WHERE id = ? LIMIT 1")) {
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "SELECT * FROM usuario WHERE id = ? LIMIT 1")) {
             statement.setInt(1, id);
-            usuarios = parseUsuario(statement.executeQuery());
+            usuarios = Usuario.parseUsuario(statement.executeQuery());
         }
 
         return (usuarios.size() > 0)? usuarios.get(0) : null;
     }
 
-    private static List<Usuario> parseUsuario(ResultSet resultSet) throws SQLException {
-        ArrayList<Usuario> usuarios = new ArrayList<>();
-
-        while (resultSet.next()) {
-            usuarios.add(new Usuario(
-                    resultSet.getInt("id"),
-                    resultSet.getString("email"),
-                    resultSet.getString("username"),
-                    resultSet.getString("senha"),
-                    resultSet.getString("nome"),
-                    resultSet.getString("sobrenome"),
-                    resultSet.getBytes("avatar")));
-        }
-        return usuarios;
-    }
 
     public boolean insert(Usuario usuario) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
@@ -116,7 +100,7 @@ public class UsuarioDAO  {
             statement.setString(1, email);
             statement.setString(2, hashPassword(password));
 
-            usuarios = parseUsuario(statement.executeQuery());
+            usuarios = Usuario.parseUsuario(statement.executeQuery());
         }
 
         return (usuarios.size() > 0)? usuarios.get(0) : null;
@@ -127,7 +111,7 @@ public class UsuarioDAO  {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "UPDATE usuario " +
-                        "SET nome = ?, sobrenome = ?" +
+                        "SET nome = ?, sobrenome = ? " +
                         "WHERE id = ?"
         )) {
 
@@ -162,7 +146,7 @@ public class UsuarioDAO  {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "UPDATE usuario " +
-                        "SET email = ?" +
+                        "SET email = ? " +
                         "WHERE id = ?"
         )) {
 
@@ -179,7 +163,7 @@ public class UsuarioDAO  {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "UPDATE usuario " +
-                        "SET avatar = ?" +
+                        "SET avatar = ? " +
                         "WHERE id = ?"
         )) {
 
@@ -196,7 +180,7 @@ public class UsuarioDAO  {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "UPDATE usuario " +
-                        "SET senha = ?" +
+                        "SET senha = ? " +
                         "WHERE id = ?"
         )) {
 
