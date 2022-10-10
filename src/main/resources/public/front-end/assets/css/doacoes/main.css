@@ -1,0 +1,24 @@
+@import url(card.css);
+@import url(camera-img.css);
+
+.doacoes-primary-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 80vh;
+}
+
+.doacoes-primary-section img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 740px) {
+    .doacoes-primary-section {
+        grid-template-columns: 1fr;
+        justify-content: center;
+        align-items: center;
+    }
+}

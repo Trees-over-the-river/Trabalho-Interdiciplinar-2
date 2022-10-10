@@ -1,0 +1,30 @@
+.form-update-img {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.form-update-img button {
+    background-color: #1f0100;
+    color: #ccc;
+    transition: 300ms;
+    padding: 0.5rem 1rem;
+    max-width: 100px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.316);
+    margin: 0 auto;
+    font-size: 1rem;
+}
+
+.form-update-img button:hover {
+    background-color: var(--vermelho-escuro);
+}
+
+.form-update-img button:active {
+    background-color: var(--vermelho-medio);
+}
+
+@media screen and (max-width: 500px) {
+    .form-update-img button { 
+        font-size: 0.8rem;
+    }
+}

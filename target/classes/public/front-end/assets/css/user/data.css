@@ -1,0 +1,151 @@
+/* CONTAINER */
+.user-data-container {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+/* USER BASICS */
+.user-basics {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.user-name,
+.user-user,
+.user-email {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    color: var(--vermelho-vivo);
+}
+
+/* BUTTON */
+.user-data-container button {
+    background-color: #030303;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #aaa;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    transition: 300ms;
+}
+
+.user-data-container button:hover {
+    background-color: #010101;
+    color: #ccc;
+}
+
+.user-data-container button:active {
+    background-color: #000;
+    text-decoration: underline;
+}
+
+/* USER DESCRIPTION */
+.user-description {
+    padding: 0 2rem;
+    display: grid;
+    gap: 1rem;
+    margin: 0 auto;
+    margin-top: 2rem;
+    max-width: 1000px;
+}
+
+.user-description::before {
+    content: "";
+    border: 1px solid #222;
+    border-radius: 5px;
+}
+
+.user-description p {
+    line-height: 1.5rem;
+    font-size: 1rem;
+}
+
+/* USER ACTIONS */
+.actions-container {
+    margin-top: 3rem;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.user-password {
+    display: grid;
+    gap: 1rem;
+}
+
+.user-password button:disabled {
+    background-color: #000;
+}
+
+.user-logout button,
+.user-password button {
+    background-color: #1f0100;
+    color: #ccc;
+    transition: 300ms;
+}
+
+.user-logout button:hover,
+.user-password button:hover {
+    background-color: var(--vermelho-escuro);
+}
+
+.user-logout button:active,
+.user-password button:active {
+    background-color: var(--vermelho-medio);
+}
+
+/* MEDIA */
+@media screen and (max-width: 700px) {
+    .user-data-container button {
+        font-size: 1rem;
+    }
+
+    .user-basics {
+        gap: 1rem;
+    }
+
+    .user-basics div:nth-child(1) ~ div:before {
+        content: "";
+        border: 1px solid #222;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    } 
+
+    .widthout-before:before {
+        display: none;
+    }
+
+    .user-name,
+    .user-user,
+    .user-email {
+        font-size: 0.95rem;
+        flex-direction: column;    
+        gap: 0.5rem;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+    .user-description {
+        padding: 0;
+    }
+
+    .user-description p {
+        font-size: 0.85rem;
+        line-height: 1.3rem;
+    }
+
+    .actions-container {
+        margin-top: 2rem;
+    }
+}

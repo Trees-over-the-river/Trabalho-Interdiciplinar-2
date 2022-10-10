@@ -1,0 +1,49 @@
+/* USER IMAGE */
+.user-img {
+    margin: 0 auto;
+    max-width: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0px 0px 12px 0px black;
+    aspect-ratio: 1;
+    position: relative;
+}
+
+.user-img:hover {
+    cursor: pointer;
+}
+
+.user-img:hover img {
+    filter: brightness(0.4);
+    transition: 150ms;
+}
+
+.user-img:active img {
+    filter: brightness(0.3);
+}
+
+.user-img:hover .bx-image-add {
+    opacity: 1;
+}
+
+.user-img img {
+    transition: 300ms;
+    width: 100%;
+}
+
+.user-img .bx-image-add {
+    opacity: 0;
+    color: rgb(178, 178, 178);
+    position: absolute;
+    font-size: 5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 300ms;
+}
+
+@media screen and (max-width: 500px) {
+    .user-img {
+        max-width: 250px;
+    }
+}

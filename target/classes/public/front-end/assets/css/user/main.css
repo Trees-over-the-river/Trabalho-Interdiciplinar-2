@@ -1,0 +1,9 @@
+@import url(user-img.css);
+@import url(data.css);
+@import url(update-forms.css);
+@import url(update-img-form.css);
+
+/* CONTAINER */
+.main-primary-section {
+    padding-block: 3rem;
+}

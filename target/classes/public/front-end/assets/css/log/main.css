@@ -1,0 +1,14 @@
+@import url(form.css);
+
+.main-primary-form {
+    max-width: 1200px;
+    width: 100%;
+    min-height: 80vh;
+    margin: 0 auto;
+    height: 100%;
+    padding-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+}
