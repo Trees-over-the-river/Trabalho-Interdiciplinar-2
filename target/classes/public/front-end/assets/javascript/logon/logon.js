@@ -11,7 +11,7 @@ logonForm.onsubmit = (e) => {
     e.preventDefault();
     const senha1 = e.srcElement.querySelector('#pass');
     const senha2 = e.srcElement.querySelector('#passCon');
-    if(senha1.value === senha2.value) {
+    if(senha1.value != 0 && senha1.value === senha2.value) {
         const user = {
             email: e.srcElement.querySelector('#Email').value, 
             username: e.srcElement.querySelector('#User').value, 

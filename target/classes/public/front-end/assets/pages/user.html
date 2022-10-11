@@ -60,21 +60,20 @@
     <main>
         <section class="container main-primary-section">
             <div id="userImgChange" class="user-img">
-                <img src="../img/FernandoCsmCubic.png" alt="FernandoCsm">
-                <i class='bx bx-image-add'></i>
+                <div><i class='bx bx-image-add'></i></div>
             </div>
             <div id="formImgChange" class="form-img-change"></div>
             <div class="user-data-container">
                 <div class="user-basics">
-                    <div class="user-name">
+                    <div id="divName" class="user-name">
                         <button type="button" id="user-btn-name">Nome</button>
                         <p>Fernando Campos Silva Dal Maria</p>
                     </div>
-                    <div class="user-user">
+                    <div id="divUsername" class="user-user">
                         <button type="button" id="user-btn-user">Nome de Usuário</button>
                         <p>FernandoCsm</p>
                     </div>
-                    <div class="user-email">
+                    <div id="divEmail" class="user-email">
                         <button type="button" id="user-btn-email">Email</button>
                         <p>contato@jealousking.com.br</p>
                     </div>
@@ -86,10 +85,10 @@
                         <div id="divChangePassword"></div>
                     </div>
                     <div class="user-logout">
-                        <button>Logout</button>
+                        <button type="button" id="btnLogout">Logout</button>
                     </div>
                     <div class="user-delete">
-                        <button>Excluir Conta</button>
+                        <button type="button" id="btnExcluirConta">Excluir Conta</button>
                     </div>
                 </div>
             </div>
@@ -140,6 +139,7 @@
     <!-- SCRIPTS -->
     <script src="../javascript/fetchFunction.js"></script>
     <script src="../javascript/generalFunctions.js"></script>
+    <script src="../javascript/userPage/updates.js"></script>
     <script src="../javascript/userPage/user.js"></script>
     <script src="../javascript/doacoes.js"></script>
     <!-- lgpd -->

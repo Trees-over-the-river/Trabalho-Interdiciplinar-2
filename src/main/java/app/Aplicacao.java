@@ -102,7 +102,7 @@ public class Aplicacao {
 
             post("/login", usuarioService::login);
             post("/logon", usuarioService::logon);
-
+            post("/logout", usuarioService::logout);
 
             path("/filme/:id", () -> {
                 get("/avaliacoes", filmeService::listAvaliacoes);

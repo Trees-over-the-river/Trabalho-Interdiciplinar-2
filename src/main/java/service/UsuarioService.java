@@ -53,7 +53,7 @@ public class UsuarioService {
         }
 
 
-        return new StandardSuccessResponse("Usuário alterado");
+        return new StandardSuccessResponse("Nome alterado");
 
     }
 
@@ -82,7 +82,7 @@ public class UsuarioService {
         }
 
 
-        return new StandardSuccessResponse("Usuário alterado");
+        return new StandardSuccessResponse("Email alterado");
     }
 
     public Object updateAvatar(Request request, Response response) throws SQLException {
@@ -96,7 +96,7 @@ public class UsuarioService {
         }
 
 
-        return new StandardSuccessResponse("Usuário alterado");
+        return new StandardSuccessResponse("Avatar alterado");
     }
 
     public Object updateSenha(Request request, Response response) throws SQLException {
@@ -110,7 +110,7 @@ public class UsuarioService {
         }
 
 
-        return new StandardSuccessResponse("Usuário alterado");
+        return new StandardSuccessResponse("Senha alterada");
     }
 
     public Object deleteUsuario(Request request, Response response) throws SQLException {
@@ -146,5 +146,10 @@ public class UsuarioService {
             return new StandardErrorResponse("Erro ao criar usuário");
         }
 
+    }
+
+    public Object logout(Request request, Response response) {
+        request.session().invalidate();
+        return new StandardSuccessResponse("Logout efetuado!");
     }
 }
