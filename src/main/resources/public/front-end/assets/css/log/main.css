@@ -1,4 +1,9 @@
 @import url(form.css);
+@import url(confirmation.css);
+
+main {
+    overflow: hidden;
+}
 
 .main-primary-form {
     max-width: 1200px;

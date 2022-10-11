@@ -35,6 +35,7 @@ userBTNImg.onclick = (e) => {
 
 userBTNName.onclick = (e) => {
     cancelPass();
+    cancelImg();
     const str = `
     <div>
         <form action="" class="form-update" id="form-update">
@@ -64,6 +65,7 @@ userBTNName.onclick = (e) => {
 
 userBTNEmail.onclick = (e) => {
     cancelPass();
+    cancelImg();
     const str = `
     <div>
         <form action="" class="form-update" id="form-update">
@@ -89,6 +91,7 @@ userBTNEmail.onclick = (e) => {
 
 userBTNUser.onclick = (e) => {
     cancelPass();
+    cancelImg();
     const str = `
     <div>
         <form action="" class="form-update" id="form-update">
@@ -114,6 +117,7 @@ userBTNUser.onclick = (e) => {
 
 userBTNPassword.onclick = (e) => {
     cancel();
+    cancelImg();
     const str = `
     <div>
         <form action="" class="form-update" id="formUpdate">

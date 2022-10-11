@@ -1,15 +1,6 @@
 const form  = document.querySelector('.header-form-search');
 const searchBtn = form.querySelector('#headerSearchBtn');
 const searchInput = form.querySelector('#search-bar');
-const btnTemp = document.querySelector('#btn-temp');
-console.log(window.location.pathname); 
-
-if(btnTemp != null) {
-    btnTemp.onclick = (e) => {
-        window.location.href = `user.html`;
-    }
-}
-
 
 form.onsubmit = (e) => {
     e.preventDefault();
