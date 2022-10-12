@@ -21,6 +21,16 @@ public class FilmeDAO {
 
 
 
+    private void addFilme(int id) throws SQLException {
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "INSERT INTO portal_de_filmes.filme VALUES(?) ON CONFLICT DO NOTHING"
+        )) {
+
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
+    }
+
     public List<Avaliacao> listAvaliacoes(int filmeID) throws SQLException {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
@@ -72,6 +82,8 @@ public class FilmeDAO {
     }
 
     public int insertUsuarioAssistidos(int usuarioID, int filmeID) throws SQLException {
+        addFilme(filmeID);
+
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "INSERT INTO usuario_assistiu_filme (usuario_id, filme_id) " +
                         "VALUES (?,?)")) {
@@ -153,6 +165,7 @@ public class FilmeDAO {
     }
 
     public boolean insertUsuarioAvaliacao(int usuarioID, int filmeID, Avaliacao avaliacao) throws SQLException {
+        addFilme(filmeID);
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "INSERT INTO usuario_avalia_filme (filme_id, gostou, pontuacao, feedback, usuario_id) " +

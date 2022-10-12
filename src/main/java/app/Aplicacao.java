@@ -24,7 +24,7 @@ import static spark.Spark.*;
 public class Aplicacao {
 
     private static final DAO dao = new DAO("localhost",
-            "Portal_de_Filmes_(teste)",
+            "portal_de_filmes",
             "ti2cc",
             "ti@cc");
 
