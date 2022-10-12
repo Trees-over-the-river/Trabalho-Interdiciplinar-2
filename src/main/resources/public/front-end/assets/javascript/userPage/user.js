@@ -11,7 +11,7 @@ const placePass = document.querySelector('#divChangePassword');
 const placeImg = document.querySelector('#formImgChange');
 
 
-fetch('http://localhost:25565/api/usuario/', {method: 'GET', credentials: 'include'})
+fetch('/api/usuario/', {method: 'GET', credentials: 'include'})
     .then(res => res.json())
     .then(res => buildPage(res.message));
 
@@ -39,7 +39,7 @@ function buildPage(res) {
 
 userBTNExc.onclick = (e) => {
     if(confirm('Tem certeza que deseja excluir sua conta?')) {
-        fetch('http://localhost:25565/api/usuario/', {method: 'DELETE', credentials: 'include'})
+        fetch('/api/usuario/', {method: 'DELETE', credentials: 'include'})
         .then(res => {
             if(res.status == 200) alert('Conta excluida com sucesso');
             else alert(`Erro ao excluir conta, status: ${res.status}`);
@@ -191,7 +191,7 @@ userBTNLogout.onclick = () => {
         method: 'POST',
         credentials: 'include',
     }
-    fetch('http://localhost:25565/api/logout', options) 
+    fetch('/api/logout', options) 
         .then(res => res.json())
         .then(res => {
             alert(res.message);

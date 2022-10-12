@@ -1,6 +1,5 @@
 
-
-fetch('http://localhost:25565/api/usuario/', {method: 'GET', credentials: 'include'})
+fetch('/api/usuario/', {method: 'GET', credentials: 'include'})
     .then(res => res.json())
     .then(res => testLog(res))
     .catch(err => console.log(err));

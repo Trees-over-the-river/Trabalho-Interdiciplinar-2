@@ -110,7 +110,7 @@
                         </div>
                   </div>
                </div>
-               <div class="evaluation-container">
+               <div id="evaluationContainer" class="evaluation-container evaluation-container-disabled">
                   <div class="confirmation-div">
                      <p>Formulário enviado com sucesso!</p>
                   </div>
@@ -132,8 +132,8 @@
                            <label for="liked">Gostei!</label>
                         </div>
                         <div class="div-check">
-                           <input type="checkbox" id="unliked" class="checkbox-form-evaluation" name="unliked">
-                           <label for="unliked">Não gostei!</label>
+                           <label for="unliked">Nota: </label>
+                           <input type="number" min="0" max="5" id="rating" class="checkbox-form-evaluation" name="unliked">
                         </div>
                         <div class="div-button-evaluation">
                            <button type="submit" id="btnFormEvaluation" class="btn-form-evaluation">Enviar</button>
@@ -190,7 +190,7 @@
    <script src="../javascript/fetchFunction.js"></script>
    <script src="../javascript/generalFunctions.js"></script>
    <script src="../javascript/logged.js"></script>
-   
+
    <!-- lgpd -->
    <script src="../javascript/lgpd.js"></script>
 

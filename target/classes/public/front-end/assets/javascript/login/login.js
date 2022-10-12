@@ -15,7 +15,7 @@ logonForm.onsubmit = (e) => {
     };
 
     const options = {method: 'POST', mode: 'no-cors', include: 'same-origin', body: JSON.stringify(user)};
-    fetch('http://localhost:25565/api/login', options)
+    fetch('/api/login', options)
         .then(res => verifyRes(res))
         .catch(err => showConfirmation('Erro no servidor.'));
 }

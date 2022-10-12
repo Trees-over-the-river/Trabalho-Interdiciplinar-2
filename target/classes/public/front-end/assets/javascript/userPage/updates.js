@@ -10,7 +10,7 @@ function updateName(e) {
         body: JSON.stringify({nome: name.value, sobrenome: sobrenome.value})
     }
 
-    fetch('http://localhost:25565/api/usuario/nome', options)
+    fetch('/api/usuario/nome', options)
         .then(res => res.json())
         .then(res => {
             alert(res.message);
@@ -29,7 +29,7 @@ function updateUsername(e) {
         body: JSON.stringify({username: user.value})
     }
 
-    fetch('http://localhost:25565/api/usuario/username', options)
+    fetch('/api/usuario/username', options)
         .then(res => res.json())
         .then(res => {
             alert(res.message);
@@ -48,7 +48,7 @@ function updateEmail(e) {
         body: JSON.stringify({email: email.value})
     }
 
-    fetch('http://localhost:25565/api/usuario/email', options)
+    fetch('/api/usuario/email', options)
         .then(res => res.json())
         .then(res => {
             alert(res.message);
@@ -69,7 +69,7 @@ function updatePassword(e) {
             body: JSON.stringify({senha: pass.value})
         }
 
-        fetch('http://localhost:25565/api/usuario/senha', options)
+        fetch('/api/usuario/senha', options)
             .then(res => res.json())
             .then(res => {
                 alert(res.message);
@@ -99,7 +99,7 @@ function updateImg(e) {
                     body: JSON.stringify({avatar: btoa(res1)})
                 }
         
-                fetch('http://localhost:25565/api/usuario/avatar', options)
+                fetch('/api/usuario/avatar', options)
                     .then(res => res.json())
                     .then(res => {
                         alert(res.message);

@@ -22,7 +22,7 @@ logonForm.onsubmit = (e) => {
         };
 
         const options = {method: 'POST', mode: 'no-cors', include: 'same-origin', body: JSON.stringify(user)};
-        fetch('http://localhost:25565/api/logon', options)
+        fetch('/api/logon', options)
             .then(res => verifyRes(e, res))
             .catch(err => showConfirmation('Cadastro mal sucedido'));
         
