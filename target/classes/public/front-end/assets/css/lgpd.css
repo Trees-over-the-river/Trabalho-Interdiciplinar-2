@@ -3,8 +3,10 @@
     background-color: #030101;
     position: sticky;
     bottom: 0;
-    padding: 20px 25px;
     z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
 }
 
 .lgpd-cookies div {
@@ -30,4 +32,11 @@
 
 .cookie_ok:active {
     background-color: rgb(8, 88, 25);
+}
+
+.lgpd-cookies.lgpd-visible {
+    opacity: 1;
+    pointer-events: auto;
+    height: auto;
+    padding: 20px 25px;
 }

@@ -14,7 +14,7 @@ else {
     btnD.onclick = () => {
         let url = 'doacoes.html';
     
-        if(window.location.pathname == '/src/main/resources/public/front-end/index.html') url = 'assets/pages/doacoes.html';
+        if(window.location.pathname == '/front-end/index.html') url = 'assets/pages/doacoes.html';
     
         window.location.href = url;
     }
