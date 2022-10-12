@@ -6,6 +6,7 @@
 @import url(lgpd.css);
 @import url(search/btn-results.css);
 @import url(doacoes.css);
+@import url(logged.css);
 
 :root {
     --vermelho-principal: #F40800;

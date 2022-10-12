@@ -1,0 +1,85 @@
+.user-min-container {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+    width: fit-content;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    position: relative;
+    background-color: #2020204a;;
+    transition: 300ms;
+}
+
+.user-min-container:hover {
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.1);
+}
+
+.user-min-img {
+    height: 50px;
+    width: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    position: relative;
+    transition: 300ms;
+}
+
+.user-min-img:hover {
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.1);
+}
+
+.user-min-img::before {
+    content: "";
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: rgb(0, 151, 0);
+    z-index: 1000;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.user-min-username {
+    text-align: right;
+    color: var(--vermelho-medio);
+    font-size: 1rem;
+    font-weight: bold;
+    transition: 300ms;
+}
+
+.user-min-username:hover {
+    color: var(--vermelho-vivo);
+}
+
+@media screen and (max-width: 550px) {
+    .user-min-container {
+        padding: 0.5rem 1.5rem;
+    }
+
+    .user-min-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-min-img::before {
+        height: 10px;
+        width: 10px;
+    }
+
+    .user-min-img:active {
+        box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.1);
+    }
+
+    .user-min-username {
+        font-size: 0.9rem;
+        color: var(--vermelho-vivo);
+    }
+}
