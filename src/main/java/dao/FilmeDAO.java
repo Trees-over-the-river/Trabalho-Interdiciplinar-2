@@ -23,7 +23,7 @@ public class FilmeDAO {
 
     private void addFilme(int id) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
-                "INSERT INTO portal_de_filmes.filme VALUES(?) ON CONFLICT DO NOTHING"
+                "INSERT INTO filme VALUES(?) ON CONFLICT DO NOTHING"
         )) {
 
             statement.setInt(1, id);
