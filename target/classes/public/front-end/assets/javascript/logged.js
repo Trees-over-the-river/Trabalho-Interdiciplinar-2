@@ -22,9 +22,13 @@ function testLog(res) {
 
         userDivUsername.innerText = res.message.username;
 
-        let s = "";
-        for(let i = 0; i < res.message.avatar.length; i++) 
-            s += String.fromCharCode(res.message.avatar[i]);
+        let s = '';
+        if(res.message.avatar != null) {
+            for(let i = 0; i < res.message.avatar.length; i++) 
+                s += String.fromCharCode(res.message.avatar[i]);
+        } else if(window.location.pathname != '/front-end/index.html') {
+            s = '../img/pessoas/Pessoas_01.jpg';
+        } else s = 'assets/img/pessoas/Pessoas_01.jpg';
 
         userDivImg.style.backgroundImage = `url(${s})`;
     }
