@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta name="robots" content="noindex">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="FernandoCsm">
+    <meta name="description" content="Bem Vindo à sinematic seu portal de filmes favorito!">
+    <meta name="keywords" content="Scinematic, portal de filmes, filmes, séries, lançamentos">
+    <meta name="copyright" content="&#169; FernandoCsm / JealousKing">
+    <title>Sinematic | Portal de Filmes</title>
+    <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/home/main.css">
+    <link rel="shortcut icon" href="../img/logos/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/user/main.css">
+
+    <!-- MENU SCRIPT -->
+    <script src="../javascript/menu.js" defer></script>
+    <script src="../javascript/API_URLs.js"></script>
+</head>
+
+<body>
+    <header>
+        <section class="container header-section">
+            <div class="header-div-logo">
+                <a href="../../index.html"><img src="../img/logos/logo_size_invert.jpg" alt="Logo do Sinematic"></a>
+            </div>
+            <div id="primary-navigation" class="header-div-primary-nav" data-visible="false">
+                <nav class="primary-nav">
+                    <ul class="primary-nav-list">
+                        <li><a href="../../index.html#titulo-lancamentos">lançamentos</a></li>
+                        <li></li>
+                        <li><a href="../../index.html#titulo-destaques">em destaque</a></li>
+                        <li></li>
+                        <li><a href="../../index.html#titulo-ultimas-avaliacoes">avaliações</a></li>
+                        <li></li>
+                        <li><a href="../../index.html#titulo-entrevistas-marketing">entrevistas & makingof</a></li>
+                        <li></li>
+                        <li><a href="../../index.html#titulo-novidades">novidades</a></li>
+                    </ul>
+                </nav>
+
+                <form class="header-form-search">
+                    <label for="search-bar">O que você quer buscar?</label>
+                    <button id="headerSearchBtn" class="search-btn-icon" type="submit"><i class='bx bx-search'></i><span
+                            class="sr-only">Buscar</span></button>
+                    <input id="search-bar" type="search" placeholder="Pesquisar filme..." name="search">
+                </form>
+                <button type="button" class="menu-toggle2" aria-controls="primary-navigation" aria-expanded="false"><i
+                        class='bx bx-x'></i><span class="sr-only">Menu</span></button>
+            </div>
+            <button type="button" class="menu-toggle1" aria-controls="primary-navigation" aria-expanded="false"><i
+                    class='bx bx-menu'></i><span class="sr-only">Menu</span></button>
+        </section>
+    </header>
+
+    <main>
+        <section class="container main-primary-section">
+            <div id="userImgChange" class="user-img">
+                <div><i class='bx bx-image-add'></i></div>
+            </div>
+            <div id="formImgChange" class="form-img-change"></div>
+            <div class="user-data-container">
+                <div class="user-basics">
+                    <div id="divName" class="user-name">
+                        <button type="button" id="user-btn-name">Nome</button>
+                        <p>Fernando Campos Silva Dal Maria</p>
+                    </div>
+                    <div id="divUsername" class="user-user">
+                        <button type="button" id="user-btn-user">Nome de Usuário</button>
+                        <p>FernandoCsm</p>
+                    </div>
+                    <div id="divEmail" class="user-email">
+                        <button type="button" id="user-btn-email">Email</button>
+                        <p>contato@jealousking.com.br</p>
+                    </div>
+                    <div class="widthout-before" id="form-place"></div>
+                </div>
+                <div class="actions-container">
+                    <div class="user-password">
+                        <button type="button" id="user-btn-password">Alterar Senha</button>
+                        <div id="divChangePassword"></div>
+                    </div>
+                    <div class="user-logout">
+                        <button type="button" id="btnLogout">Logout</button>
+                    </div>
+                    <div class="user-delete">
+                        <button type="button" id="btnExcluirConta">Excluir Conta</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lgpd-cookies">
+            <div>
+                <p>Nosso site utiliza cookies para proporcionar aos usuários uma melhor experiência de navegação. Nosso
+                    site
+                    também utiliza cookies de terceiros como aqueles do google analytics. Ao clicar no botão "Aceitar
+                    todos"
+                    você consente com a nossa <a href="privacy-policy.html">Política de Privacidade</a> e
+                    com o
+                    uso de todos os cookies do nosso site.</p>
+                <button class="cookie_ok" aria-expanded="true">Aceitar</button>
+            </div>
+        </section>
+
+        <section id="doacoesPopup" class="doaoes-popup">
+            <div class="popup-container">
+               <h3>Faça uma contribuição</h3>
+               <button type="button" id="popuoBtnDoacoes" class="btn-doacoes">Contribua</button>
+               <button type="button" id="btnXPopup" class="btn-X-popup"><i class='bx bx-x'></i></button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section class="container footer-section">
+            <div class="footer-div-content">
+                <p>&#169; Copyright 2022 | <a href="https://www.linkedin.com/in/fernandocsdm/" rel="external"
+                        target="_blank"><strong class="link-meu-nome">FernandoCsm & BrunoSO</strong></a> <span
+                        class="lateral-bar">/</span> <span class="jealousking-link"><a
+                            href="https://jealousking.com.br/" rel="external" target="_blank">JealousKing</a></span></p>
+                <p><a href="privacy-policy.html"><span class="security-policy-link">Política de
+                            Privacidade</span></a></p>
+            </div>
+            <div class="footer-div-logo">
+                <a href="../../index.html"><img src="../img/logos/logo_size_invert.jpg" alt="Logo do Sinematic"></a>
+            </div>
+        </section>
+        <section>
+            <button type="button" id="btnTop"><i class='bx bx-glasses'></i></button>
+        </section>
+    </footer>
+
+
+    <!-- SCRIPTS -->
+    <script src="../javascript/fetchFunction.js"></script>
+    <script src="../javascript/generalFunctions.js"></script>
+    <script src="../javascript/userPage/updates.js"></script>
+    <script src="../javascript/userPage/user.js"></script>
+    <script src="../javascript/doacoes.js"></script>
+    <!-- lgpd -->
+    <script src="../javascript/lgpd.js"></script>
+    <!-- SEARCH -->
+    <script src="../javascript/searchForm.js"></script>
+</body>
+
+</html>

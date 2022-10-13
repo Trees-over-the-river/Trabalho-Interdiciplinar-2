@@ -1,0 +1,48 @@
+.form-update {
+    background-color: #111;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.form-update fieldset {
+    border: none;
+    outline: none;
+}
+
+.form-update legend {
+    font-size: 1.1rem;
+    color: #aaa;
+    padding-bottom: 1rem;
+}
+
+.form-update div {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.form-update div input,
+.form-update div textarea {
+    border: none;
+    outline: none;
+    background-color: #eee;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: black;
+    border-radius: 5px;
+}
+
+.form-update div textarea {
+    background-color: #333;
+    color: white;
+    transition: 300ms;
+}
+
+.form-update div textarea:focus {
+    box-shadow: 0px 0px 12px 0px black;
+}
+
+.user-delete {
+    margin-top: 2rem;
+}

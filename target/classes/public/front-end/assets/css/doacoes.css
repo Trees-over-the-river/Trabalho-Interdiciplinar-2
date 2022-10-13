@@ -1,0 +1,99 @@
+.doaoes-popup {
+    position: fixed;
+    bottom: 1rem;
+    margin-left: calc(100% - 250px - 1rem);
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 10px;
+    z-index: 1100;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.05);
+}
+
+.popup-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+    text-align: center;
+}
+
+.popup-container h3 {
+    line-height: 1.2em;
+}
+
+.btn-doacoes {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ccc;
+    background-color: var(--vermelho-escuro);
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+.btn-doacoes:hover {
+    background-color: var(--vermelho-medio);
+    box-shadow: 0px 0px 5px 0px var(--vermelho-medio);
+}
+
+.btn-doacoes:active {
+    background-color: var(--vermelho-escuro);
+}
+
+.btn-X-popup {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.btn-X-popup i {
+    color: #eee;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.btn-X-popup:hover i {
+    color: var(--vermelho-vivo);
+}
+
+@media screen and (max-width: 740px) {
+    .popup-container h3 {
+        font-size: 1rem;
+    }
+
+    .doaoes-popup {
+        width: 150px;
+        margin-left: calc(100% - 150px - 1rem);
+    }
+
+    .btn-doacoes {
+        font-size: 0.85rem;
+    }
+
+    .btn-X-popup {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.25rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .popup-container h3 {
+        font-size: 0.9rem;
+    }
+
+    .doaoes-popup {
+        width: 130px;
+        margin-left: calc(100% - 130px - 1rem);
+    }
+
+    .btn-doacoes {
+        font-size: 0.8rem;
+    }
+}

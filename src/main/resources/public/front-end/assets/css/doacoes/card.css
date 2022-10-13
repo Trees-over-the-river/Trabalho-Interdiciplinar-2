@@ -1,0 +1,35 @@
+.doacao-card {
+    max-width: 400px;
+    text-align: center;
+    background-color: #222;
+    padding: 1rem;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    transition: 300ms;
+}
+
+.doacao-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+.doacao-card-title h2 {
+    margin-bottom: 0.5rem;
+}
+
+.doacao-card-img {
+    padding-top: 1rem;
+}
+
+.doacao-card-img img {
+    border-radius: 5px;
+}
+
+
+@media screen and (max-width: 740px) {
+    .doacao-card {
+        margin-top: 1rem;
+        grid-row: 1;
+    }
+}

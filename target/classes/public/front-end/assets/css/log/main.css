@@ -1,0 +1,17 @@
+@import url(form.css);
+@import url(confirmation.css);
+
+.main-primary-form {
+    max-width: 1200px;
+    width: 100%;
+    min-height: 80vh;
+    height: 100%;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}

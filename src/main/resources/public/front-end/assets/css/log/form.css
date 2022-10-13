@@ -1,0 +1,110 @@
+
+.form-login {
+    padding-top: 2rem;
+    height: 100%;
+    display: grid;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.form-login legend {
+    font-size: 1.5rem;
+    line-height: 1.7em;
+    padding-bottom: 2.5rem;
+    color: var(--vermelho-vivo);
+    font-weight: 500;
+    text-align: center;
+} 
+
+.form-login fieldset {
+    background-color: #20202088;
+    height: fit-content;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 0 10px 2rem 10px ;
+}
+
+.form-login .form-name-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-login .form-name-input div {
+    width: 100%;
+}
+
+.form-login fieldset div {
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+    width: 90%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.form-login fieldset div input {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.808);
+    border: 1px solid #666;
+    font-size: 1.2rem;
+    width: 100%;
+    color: #bbb;
+    outline: none;
+}
+
+.form-login fieldset div label {
+    color: #bbb;
+    font-size: 1.35rem;
+}
+
+.btn-form {
+    background-color: rgb(10, 10, 10);
+    padding: 0.5rem 1.3rem;
+    border-radius: 5px;
+    color: #bbb;
+    border: 1px solid #555;
+    font-size: 1.3rem;
+    transition: 200ms;
+}
+
+.btn-form:hover {
+    background-color: black;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1224px) {
+    .form-login {
+        max-width: 100%;
+    }
+
+    .form-login fieldset {
+        width: 85%;
+    }
+
+    .btn-form,
+    .form-login fieldset div label {
+        font-size: 1.1rem;
+    }
+    
+
+    .form-login fieldset div input {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .form-login .form-name-input {
+        grid-template-columns: 1fr;
+    }
+}
