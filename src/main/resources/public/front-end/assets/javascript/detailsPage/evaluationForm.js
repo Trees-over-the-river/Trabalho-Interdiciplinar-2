@@ -50,8 +50,3 @@ function testAv(res) {
         }
     } 
 }
-
-
-
-
-

@@ -12,7 +12,9 @@ import service.CategoriaService;
 import service.FilmeService;
 import service.UsuarioService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.FileHandler;
@@ -23,10 +25,26 @@ import static spark.Spark.*;
 
 public class Aplicacao {
 
-    private static final DAO dao = new DAO("localhost",
+    private static final DAO dao = new DAO("fernandocsm-server.postgres.database.azure.com",
             "portal_de_filmes",
-            "ti2cc",
-            "ti@cc");
+            "adm",
+                    getSenha()
+    );
+
+    private static String getSenha() {
+        String s = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Server's password: ");
+            s = br.readLine();
+            br.close();
+        } catch(IOException e) {
+            return null;
+        }
+
+        return s;
+    }
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
     private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
