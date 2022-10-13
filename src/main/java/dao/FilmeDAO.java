@@ -42,6 +42,15 @@ public class FilmeDAO {
 
     }
 
+    public List<Avaliacao> listMelhoresAvaliacoes() throws SQLException {
+
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "SELECT * FROM usuario_avalia_filme ORDER BY pontuacao DESC")) {
+            return Avaliacao.parseAvaliacoes(statement.executeQuery());
+        }
+
+    }
+
     public void deleteFilme(int filmeID) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "DELETE FROM filme WHERE id = ?")) {

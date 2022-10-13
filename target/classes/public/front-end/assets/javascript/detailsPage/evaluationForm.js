@@ -19,12 +19,12 @@ function testAv(res) {
         evaluationForm.onsubmit = (e) => {
             e.preventDefault();
 
-            fetch(`/api/usuario/filmes/assistidos/${mID}`, {method: 'POST', credentials: 'include'})
-                .then(res => res.json())
-                .then(res => console.log(res));
-
-
             const watch = document.querySelector('#watched');
+            if(watch.value == 'on') {
+                fetch(`/api/usuario/filmes/assistidos/${mID}`, {method: 'POST', credentials: 'include'})
+                    .then(res => res.json())
+                    .then(res => console.log(res));
+            }
 
             const txtA = evaluationForm.querySelector('#evaluation-description-input');
             const like = evaluationForm.querySelector('#liked');
@@ -37,7 +37,7 @@ function testAv(res) {
                 feedback: txtA.value
             };
 
-            fetch(`/api/usuario/filmes/avaliados/${mID}`, {
+            fetch(`/api/usuario/filmes/avaliados/${mID}/`, {
                 method: 'POST', 
                 credentials: 'include', 
                 body: JSON.stringify(obj)

@@ -41,6 +41,20 @@ public class UsuarioService {
         return new StandardSuccessResponse(usuario);
     }
 
+    public Object getUsuarioID(Request request, Response response) throws SQLException {
+        int userID = Integer.parseInt(request.params(":id"));
+
+        Usuario usuario = usuarioDAO.getByID(userID);
+
+        if (usuario == null) {
+            return new StandardErrorResponse("Usuário not found");
+        }
+
+        usuario.setSenha(null);
+        usuario.setId(null);
+        return new StandardSuccessResponse(usuario);
+    }
+
     public Object updateNome(Request request, Response response) throws SQLException {
         int id = request.session().attribute("id");
         var body = new Gson().fromJson(request.body(), HashMap.class);

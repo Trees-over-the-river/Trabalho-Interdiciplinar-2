@@ -1,11 +1,13 @@
 
 fetch('/api/usuario/', {method: 'GET', credentials: 'include'})
-    .then(res => res.json())
-    .then(res => testLog(res))
+    .then(res => {
+        if(res.status == 200)
+            return res.json();
+    }).then(res => testLog(res))
     .catch(err => console.log(err));
 
 function testLog(res) {
-    if(res.status == 'SUCCESS') {
+    if(res != null && res.status == 'SUCCESS') {
         const userDiv = document.querySelector('#secundary-navigation');
         userDiv.innerHTML = `
             <div class="user-min-container" onclick="redirectUser()">

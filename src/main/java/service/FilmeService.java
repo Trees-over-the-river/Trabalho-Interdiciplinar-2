@@ -30,6 +30,12 @@ public class FilmeService {
         return new StandardSuccessResponse(avaliacoes);
     }
 
+    public Object listMelhoresAvaliacoes(Request request, Response response) throws SQLException {
+        List<Avaliacao> avaliacoes = filmeDAO.listMelhoresAvaliacoes();
+
+        return new StandardSuccessResponse(avaliacoes);
+    }
+
     public Object deleteFilme(Request request, Response response) throws SQLException {
         int filmeID = Integer.parseInt(request.params(":id"));
 

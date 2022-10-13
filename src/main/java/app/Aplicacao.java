@@ -109,6 +109,14 @@ public class Aplicacao {
                 delete("/", filmeService::deleteFilme);
                 get("/categorias", filmeService::listCategorias);
             });
+
+            path("/filme", () -> {
+                get("/melhores-avaliacoes", filmeService::listMelhoresAvaliacoes);
+            });
+
+            path("/usuarios", () -> {
+                get("/:id", usuarioService::getUsuarioID);
+            });
         });
 
 

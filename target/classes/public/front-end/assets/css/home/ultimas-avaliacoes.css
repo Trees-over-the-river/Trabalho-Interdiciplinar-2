@@ -21,6 +21,8 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
+    line-break: anywhere;
+    max-width: 33.333%;
 }
 
 .avaliacao-div h3 {
@@ -38,8 +40,15 @@
     margin: 0 auto;
 }
 
-.avaliacao-tempo {
+.avaliacao-tempo, .avaliacao-star {
     padding-top: 1rem;
+}
+
+.avaliacao-star-list {
+    display: flex;
+    gap: 0.5rem;
+    list-style-type: none;
+    color: var(--amarelo-contraste);
 }
 
 .pessoa_01 {
@@ -63,9 +72,11 @@
     background-repeat: no-repeat;
 }
 
-
-
 @media screen and (min-width: 801px) and (max-width: 1200px) {
+    .avaliacao-div {
+        max-width: 100%;
+    }
+
     .avaliacoes-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -78,6 +89,10 @@
 }
 
 @media screen and (max-width: 800px) {
+    .avaliacao-div {
+        max-width: 100%;
+    }
+
     .avaliacoes-container {
         display: grid;
         grid-template-columns: 1fr;
@@ -86,6 +101,7 @@
 
 @media screen and (max-width: 500px) {
     .avaliacao-div {
+        max-width: 100%;
         flex-direction: column;
     }
 
