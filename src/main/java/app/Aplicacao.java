@@ -6,15 +6,14 @@ import dao.CategoriaDAO;
 import dao.DAO;
 import dao.FilmeDAO;
 import dao.UsuarioDAO;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.http.MethodNotSupportedException;
 import responses.StandardSuccessResponse;
 import service.CategoriaService;
 import service.FilmeService;
 import service.UsuarioService;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.FileHandler;
@@ -25,26 +24,12 @@ import static spark.Spark.*;
 
 public class Aplicacao {
 
-    private static final DAO dao = new DAO("fernandocsm-server.postgres.database.azure.com",
-            "portal_de_filmes",
-            "adm",
-                    getSenha()
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final DAO dao = new DAO(dotenv.get("DATABASE_SERVER_HOST"),
+            dotenv.get("DATABASE_NAME"),
+            dotenv.get("DATABASE_SERVER_USER"),
+            dotenv.get("DATABASE_SERVER_PASSWORD")
     );
-
-    private static String getSenha() {
-        String s = "";
-
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print("Server's password: ");
-            s = br.readLine();
-            br.close();
-        } catch(IOException e) {
-            return null;
-        }
-
-        return s;
-    }
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
     private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
@@ -52,7 +37,8 @@ public class Aplicacao {
 
     private static final CategoriaService categoriaService = new CategoriaService(new CategoriaDAO(dao));
 
-    private static final int port = 25565;
+    private static final int PORT = Integer.parseInt(dotenv.get("PORT"));
+    private static final String HOST = dotenv.get("HOST");
 
 
     public static void main(String[] args) throws IOException {
@@ -65,7 +51,8 @@ public class Aplicacao {
         logger.addHandler(fileHandler);
 
 
-        port(port);
+        port(PORT);
+        ipAddress(HOST);
 
         staticFiles.location("/public");
 
@@ -76,7 +63,7 @@ public class Aplicacao {
         });
 
 
-        logger.info("Starting the server at http://localhost:" + port);
+        logger.info("Starting the server at http://" + HOST + ":" + PORT);
 
         defaultResponseTransformer(gson::toJson);
 
