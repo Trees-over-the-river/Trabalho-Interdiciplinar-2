@@ -153,7 +153,7 @@ public class UsuarioService {
         var usuario = new Gson().fromJson(request.body(), Usuario.class);
 
         try  {
-            usuarioDAO.insert(usuario);
+            usuarioDAO.addUser(usuario);
             return new StandardSuccessResponse("Sucesso ao criar usuário");
         } catch (SQLException e){
             response.status(400);

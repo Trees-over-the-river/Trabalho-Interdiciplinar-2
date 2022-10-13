@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -64,9 +65,9 @@ public class UsuarioDAO  {
     }
 
 
-    public boolean insert(Usuario usuario) throws SQLException {
+    public Integer addUser(Usuario usuario) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
-                "INSERT INTO usuario (email, username, senha, nome, sobrenome, avatar) VALUES(?, ?, ?, ?, ?, ?)"
+                "INSERT INTO usuario (email, username, senha, nome, sobrenome, avatar) VALUES(?, ?, ?, ?, ?, ?) RETURNING id;"
         )) {
             statement.setString(1, usuario.getEmail());
             statement.setString(2, usuario.getUsername());
@@ -75,7 +76,9 @@ public class UsuarioDAO  {
             statement.setString(5, usuario.getSobrenome());
             statement.setBytes(6, usuario.getAvatar());
 
-            return statement.executeUpdate() == 1;
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("id");
         }
     }
 

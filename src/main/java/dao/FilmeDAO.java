@@ -173,17 +173,17 @@ public class FilmeDAO {
         }
     }
 
-    public boolean insertUsuarioAvaliacao(int usuarioID, int filmeID, Avaliacao avaliacao) throws SQLException {
-        addFilme(filmeID);
+    public boolean insertUsuarioAvaliacao(Avaliacao avaliacao) throws SQLException {
+        addFilme(avaliacao.getFilmeID());
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "INSERT INTO usuario_avalia_filme (filme_id, gostou, pontuacao, feedback, usuario_id) " +
                         "VALUES (?,?,?,?,?)")) {
-            statement.setInt(1, filmeID);
+            statement.setInt(1, avaliacao.getFilmeID());
             statement.setBoolean(2, avaliacao.getGostou() != null && avaliacao.getGostou());
             statement.setInt(3, (avaliacao.getPontuacao() == null)? 0 : avaliacao.getPontuacao());
             statement.setString(4, (avaliacao.getFeedback() == null)? "": avaliacao.getFeedback());
-            statement.setInt(5, usuarioID);
+            statement.setInt(5, avaliacao.getUsuarioID());
 
             return statement.executeUpdate() > 0;
         }

@@ -80,8 +80,8 @@ ON UPDATE NO ACTION
 -- Table 'portal_de_filmes'.'Usuario_avalia_Filme'
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Usuario_avalia_Filme (
-  Usuario_ID INT NOT NULL UNIQUE,
-  Filme_ID INT NOT NULL UNIQUE,
+  Usuario_ID INT NOT NULL,
+  Filme_ID INT NOT NULL,
   Gostou BOOLEAN NULL,
   Pontuacao INT NULL,
   FeedBack VARCHAR(250) NULL,

@@ -151,7 +151,10 @@ public class FilmeService {
 
         System.out.println(avaliacao);
 
-        if (filmeDAO.insertUsuarioAvaliacao(usuarioID, filmeID, avaliacao)) {
+        avaliacao.setFilmeID(filmeID);
+        avaliacao.setUsuarioID(usuarioID);
+
+        if (filmeDAO.insertUsuarioAvaliacao(avaliacao)) {
             return  new StandardSuccessResponse("Nova avaliação adicionada");
         } else {
             response.status(400);
