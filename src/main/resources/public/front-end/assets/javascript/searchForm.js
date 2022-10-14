@@ -4,10 +4,8 @@ const searchInput = form.querySelector('#search-bar');
 
 form.onsubmit = (e) => {
     e.preventDefault();
-    let url;
+    let url = `pesquisa.html?search=${searchInput.value}`;
 
-    if(window.location.pathname == "/src/main/resources/public/front-end/assets/pages/login.html" || window.location.pathname == "/src/main/resources/public/front-end/assets/pages/logon.html" || window.location.pathname == "/src/main/resources/public/front-end/assets/pages/user.html")
-        url = `pesquisa.html?search=${searchInput.value}`;
-    else url = `assets/pages/pesquisa.html?search=${searchInput.value}`;
+    if(window.location.pathname == `/front-end/index.html`) url = `assets/pages/pesquisa.html?search=${searchInput.value}`;
     window.location.href = url;
 }
