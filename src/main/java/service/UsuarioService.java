@@ -2,7 +2,6 @@ package service;
 
 
 import com.google.gson.Gson;
-import dao.CategoriaDAO;
 import dao.UsuarioDAO;
 import model.Usuario;
 import responses.StandardErrorResponse;
@@ -18,16 +17,14 @@ public class UsuarioService {
 
 
     private final UsuarioDAO usuarioDAO;
-    private final CategoriaDAO categoriaDAO;
 
-    public UsuarioService(UsuarioDAO usuarioDAO, CategoriaDAO categoriaDAO) {
+    public UsuarioService(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
-        this.categoriaDAO = categoriaDAO;
     }
 
 
 
-    public Object getUsuario(Request request, Response response) throws SQLException {
+    public Object getUsuario(Request request, Response ignoredResponse) throws SQLException {
         int id = request.session().attribute("id");
 
         Usuario usuario = usuarioDAO.getByID(id);
@@ -41,7 +38,7 @@ public class UsuarioService {
         return new StandardSuccessResponse(usuario);
     }
 
-    public Object getUsuarioID(Request request, Response response) throws SQLException {
+    public Object getUsuarioID(Request request, Response ignoredResponse) throws SQLException {
         int userID = Integer.parseInt(request.params(":id"));
 
         Usuario usuario = usuarioDAO.getByID(userID);
@@ -127,7 +124,7 @@ public class UsuarioService {
         return new StandardSuccessResponse("Senha alterada");
     }
 
-    public Object deleteUsuario(Request request, Response response) throws SQLException {
+    public Object deleteUsuario(Request request, Response ignoredResponse) throws SQLException {
         int id = request.session().attribute("id");
         usuarioDAO.delete(id);
         request.session(false);
@@ -162,7 +159,7 @@ public class UsuarioService {
 
     }
 
-    public Object logout(Request request, Response response) {
+    public Object logout(Request request, Response ignoredResponse) {
         request.session().invalidate();
         return new StandardSuccessResponse("Logout efetuado!");
     }

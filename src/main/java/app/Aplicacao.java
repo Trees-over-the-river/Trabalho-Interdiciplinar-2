@@ -32,7 +32,7 @@ public class Aplicacao {
     );
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
-    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
+    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao));
     private static final FilmeService filmeService = new FilmeService(new FilmeDAO(dao));
 
     private static final CategoriaService categoriaService = new CategoriaService(new CategoriaDAO(dao));
@@ -64,6 +64,7 @@ public class Aplicacao {
 
 
         logger.info("Starting the server at http://" + HOST + ":" + PORT);
+
 
         defaultResponseTransformer(gson::toJson);
 
