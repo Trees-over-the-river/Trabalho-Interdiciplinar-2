@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-package Personalizer.src.com.microsoft.personalizer;
+package com.microsoft.personalizer;
 
 import com.microsoft.personalizer.models.RankRequest;
 import com.microsoft.rest.*;

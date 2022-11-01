@@ -1,4 +1,4 @@
-package Personalizer.src;// You need to add the following client libraries to your project:
+package app;// You need to add the following client libraries to your project:
 // client-runtime-1.6.6.jar - https://search.maven.org/search?q=g:com.microsoft.rest
 
 import java.util.List;

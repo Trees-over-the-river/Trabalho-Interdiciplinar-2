@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-package Personalizer.src.com.microsoft.personalizer.models;
+package com.microsoft.personalizer.models;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
