@@ -11,13 +11,16 @@ import com.microsoft.rest.serializer.JacksonAdapter;
 import okhttp3.Request;
 import com.microsoft.personalizer.implementation.PersonalizationClientImpl;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class PersonalizerQuickstart {
 
+    private static Dotenv dotenv = Dotenv.load();
     // The key specific to your personalization service instance; e.g. "0123456789abcdef0123456789ABCDEF"
-    private static String ApiKey = "";
+    private static String ApiKey = dotenv.get("APIKEY");
 
     // The endpoint specific to your personalization service instance; e.g. https://westeurope.api.cognitive.microsoft.com
-    private static String ServiceEndpoint = "";
+    private static String ServiceEndpoint = dotenv.get("ENDPOINT");
 
     public static void main(String[] args) {
 
