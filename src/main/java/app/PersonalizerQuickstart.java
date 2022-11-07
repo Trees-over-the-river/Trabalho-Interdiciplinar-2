@@ -63,7 +63,7 @@ public class PersonalizerQuickstart {
                     .withExcludedActions(excludeActions)
                     .withEventId(eventId);
             RankResponse response = client.rank(personalizationRequest);
-
+            
             System.out.println("\nPersonalization service thinks you would like to have: " + response.rewardActionId() + ". Is this correct? (y/n)");
 
             double reward = 0.0;
