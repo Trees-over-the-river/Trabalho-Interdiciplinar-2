@@ -1,15 +1,21 @@
 package app;// You need to add the following client libraries to your project:
 // client-runtime-1.6.6.jar - https://search.maven.org/search?q=g:com.microsoft.rest
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.util.BinaryData;
+import com.azure.core.util.ClientOptions;
 import com.microsoft.personalizer.models.*;
 import com.microsoft.rest.RestClient;
 import com.microsoft.rest.ServiceResponseBuilder.Factory;
 import com.microsoft.rest.serializer.JacksonAdapter;
 import okhttp3.Request;
 import com.microsoft.personalizer.implementation.PersonalizationClientImpl;
+import com.azure.ai.personalizer.models.*;
+import com.azure.ai.personalizer.implementation.*;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -24,12 +30,24 @@ public class PersonalizerQuickstart {
 
     public static void main(String[] args) {
 
+        var client = new PersonalizerClientV1Preview3ImplBuilder()
+                .endpoint(ServiceEndpoint)
+                .credential(new AzureKeyCredential(ApiKey))
+                .buildClient();
+
+        //List<BinaryData> actions = withActions();
+        PersonalizerRankableAction actions = new PersonalizerRankableAction().setFeatures(withActions());
+        actions.
+        client.rank( new PersonalizerRankOptions().setActions(Collections.singletonList(actions)));
+
+
+        /*
         int iteration = 1;
         boolean runLoop;
 
         // Initialize Personalization client.
         PersonalizationClientImpl client = initializePersonalizationClient(ServiceEndpoint, ApiKey);
-
+        System.out.println("cliente print: " + client.statusGet());
         // Get the actions list to choose from personalization with their features.
         List<RankableAction> actions = getActions();
 
@@ -92,7 +110,32 @@ public class PersonalizerQuickstart {
             runLoop = !("Q".equalsIgnoreCase(getKey()));
 
         } while (runLoop);
+
+
+         */
     }
+
+    private static List<BinaryData> withActions() {
+        List<BinaryData> list = null;
+        list.add( BinaryData.fromObject(
+                    new Object() {
+                        String taste = "salty";
+                        String spiceLevel = "medium";
+                    }
+                )
+        );
+        list.add( BinaryData.fromObject(
+                        new Object() {
+                            String taste = "sweet";
+                            String spiceLevel = "medium";
+                        }
+                )
+        );
+        return list;
+    }
+
+
+    /*================================================================================================================*/
 
     /**
      * Initializes the personalization client.

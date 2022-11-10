@@ -22,6 +22,8 @@ import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
+import java.util.Arrays;
+
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -55,6 +57,7 @@ public class PersonalizationClientImpl extends ServiceClient implements Personal
      */
     public PersonalizationClientImpl(String baseUrl) {
         super(baseUrl);
+        System.out.println(baseUrl);
         initialize();
     }
 
@@ -105,15 +108,15 @@ public class PersonalizationClientImpl extends ServiceClient implements Personal
      */
     interface PersonalizationClientService {
         @Headers({ "Content-Type: application/json-patch+json; charset=utf-8", "x-ms-logging-context: .PersonalizationClient reward" })
-        @POST("personalization/v1.0/events/{eventId}/reward")
+        @POST("personalizer/v1.0/events/{eventId}/reward")
         Observable<Response<ResponseBody>> reward(@Path("eventId") String eventId, @Body RewardRequest reward);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: .PersonalizationClient activate" })
-        @POST("personalization/v1.0/events/{eventId}/activate")
+        @POST("personalizer/v1.0/events/{eventId}/activate")
         Observable<Response<ResponseBody>> activate(@Path("eventId") String eventId);
 
         @Headers({ "Content-Type: application/json-patch+json; charset=utf-8", "x-ms-logging-context: .PersonalizationClient rank" })
-        @POST("personalization/v1.0/rank")
+        @POST("personalizer/v1.0/rank")
         Observable<Response<ResponseBody>> rank(@Body RankRequest personalizationRequest);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: .PersonalizationClient statusGet" })
