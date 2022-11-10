@@ -3,7 +3,6 @@
 	<groupId>ti2cc</groupId>
 	<artifactId>PortaldeFilmes</artifactId>
 	<version>2.0</version>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.sparkjava</groupId>

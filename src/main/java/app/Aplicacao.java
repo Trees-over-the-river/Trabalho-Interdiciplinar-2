@@ -56,7 +56,6 @@ public class Aplicacao {
 
         staticFiles.location("/public");
 
-
         get("/",(request, response) -> {
             response.redirect("/front-end/index.html");
             return new StandardSuccessResponse(null);
@@ -69,6 +68,8 @@ public class Aplicacao {
         defaultResponseTransformer(gson::toJson);
 
         path("/api", () -> {
+            before("/*", (request, response) -> System.out.println("\n\n[Aplicacao]Conexão em \"" + request.uri()+"\""));
+            after("/*", (request, response) -> System.out.println("[Aplicacao] Conexão encerrada"));
             path("/usuario", () -> {
                 before("/*", (request, response) -> {
                    if (request.session().attribute("id") == null) halt(403);
