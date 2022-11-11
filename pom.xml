@@ -67,37 +67,14 @@
             <version>2.13.4</version>
         </dependency>
 		<dependency>
-			<groupId>ti2cc</groupId>
-			<artifactId>PortaldeFilmes</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
 			<groupId>com.microsoft.rest</groupId>
 			<artifactId>client-runtime</artifactId>
 			<version>1.7.14</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.microsoft.azure</groupId>
-			<artifactId>azure-client-runtime</artifactId>
-			<version>1.7.14</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.microsoft.azure</groupId>
-			<artifactId>azure-client-authentication</artifactId>
-			<version>1.7.14</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>2.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.azure</groupId>
-			<artifactId>azure-ai-personalizer</artifactId>
-			<version>1.0.0-beta.1</version>
 		</dependency>
 
 	</dependencies>
@@ -105,4 +82,24 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<mainClass>app.Aplicacao</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
