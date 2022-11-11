@@ -10,6 +10,10 @@ import { isUnexpected } from "@azure-rest/ai-personalizer";
 // Load the .env file if it exists
 require("dotenv").config();
 
+
+
+
+
 async function main() {
  const endpoint = process.env.PERSONALIZER_ENDPOINT;
  const key = process.env.PERSONALIZER_API_KEY;
@@ -32,10 +36,8 @@ async function main() {
 
  // The current context.
  const contextFeatures = [
-   { User: { ProfileType: "AnonymousUser", LatLong: "47.6,-122.1" } },
-   { Environment: { DayOfMonth: "28", MonthOfYear: "8", Weather: "Sunny" } },
-   { Device: { Mobile: true, Windows: true } },
-   { RecentActivity: { ItemsInCart: 3 } },
+   { User: { ProfileType: "AnonymousUser" } },
+   { RecentActivity: { categories: getCategories() } },
  ];
 
  const request = {
@@ -81,3 +83,7 @@ main().catch((err) => {
    `The sample encountered an error with code: ${err.code} and message: ${err.message}`
  );
 });
+
+async function getCategories() {
+  return await fetch("/api/usuario/categorias/list")
+}
