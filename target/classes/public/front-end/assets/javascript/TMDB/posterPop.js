@@ -1,11 +1,25 @@
 
-gambiarra();
 
 let numberPosters = 0;
 let posters = ``;
 let page = 1;
 let maxim = 6;
+
+const IDGen = localStorage.getItem('preferido');
 const selectGen = document.querySelector('#categorias-destaque');
+
+if(IDGen != null) {
+    const nossoComunista = GENRES.find(e => IDGen == e.id);
+    console.log(nossoComunista);
+    const firstGen = document.querySelector(`#categorias-destaque option[value="${nossoComunista.name}"]`);
+
+    firstGen.selected = true;
+
+    gambiarra(nossoComunista, 6, page);
+} else {
+    gambiarra();
+}
+
 selectGen.oninput = () => {
     findGenre(GENRES);
     
@@ -59,8 +73,8 @@ function gambiarra(genre, postersNumber = 6, pageNumber = 1) {
 
     if (postersNumber === 6 || (!movies[(20 * page) - 1] && postersNumber >= (20 * (page - 1)))) {
 
-        console.log('carregando...');
-        if (genre) {
+        console.log('carregando...' + genre);
+        if (genre != null) {
             API_POPULAR = `${API_DISCOVER}&with_genres=${genre.id}&page=${pageNumber}`;
 
             fetchMovie(API_POPULAR, cloneMovie, "results", postersNumber, genre.id);
