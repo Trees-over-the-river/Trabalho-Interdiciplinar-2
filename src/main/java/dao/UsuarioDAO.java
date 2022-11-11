@@ -55,12 +55,14 @@ public class UsuarioDAO  {
 
     public Usuario getByID(int id) throws SQLException {
         List<Usuario> usuarios;
+        System.out.println("[UsuarioDAO] Pesquisando usuário no servidor");
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT * FROM usuario WHERE id = ? LIMIT 1")) {
             statement.setInt(1, id);
             usuarios = Usuario.parseUsuario(statement.executeQuery());
         }
 
+        System.out.println("[UsuarioDAO]" + ((usuarios.size() > 0)? "Usuário encontrado" : "Usuário não encontrado"));
         return (usuarios.size() > 0)? usuarios.get(0) : null;
     }
 
@@ -97,6 +99,7 @@ public class UsuarioDAO  {
 
     public Usuario authenticate(String email, String password) throws SQLException {
         List<Usuario> usuarios;
+        System.out.println("[UsuarioDAO]tentando autenticar usuario");
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT * FROM usuario WHERE email = ? AND senha = ? LIMIT 1"
         )) {
@@ -105,6 +108,8 @@ public class UsuarioDAO  {
 
             usuarios = Usuario.parseUsuario(statement.executeQuery());
         }
+
+        System.out.println("[UsuarioDAO]"+ ((usuarios.size() > 0)? "Usuário \"" + usuarios.get(0).getEmail() + "\" autenticado" : "Usuário não autenticado"));
 
         return (usuarios.size() > 0)? usuarios.get(0) : null;
     }

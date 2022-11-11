@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class DAO implements AutoCloseable {
 
@@ -27,15 +26,16 @@ public class DAO implements AutoCloseable {
 		String url = "jdbc:postgresql://" + serverName + ":" + porta +"/" + mydatabase;
 		boolean status = false;
 
+		System.out.println("[DAO] Conectando ao banco de dados Postgres em \"" + url + "\"");
 		conexao = DriverManager.getConnection(url, username, password);
 		status = (conexao != null);
-		Logger.getLogger("Logger").fine("Conexão efetuada com o postgres em " + url + " na tabela "+ mydatabase + "!");
+		System.out.println("[DAO] Conexão efetuada");
 
 		return status;
 	}
 
 	public Connection getConexao() throws SQLException {
-
+		System.out.println("[DAO]Adiquirindo conexão com banco de dados");
 		if (conexao == null) conectar();
 		return conexao;
 	}

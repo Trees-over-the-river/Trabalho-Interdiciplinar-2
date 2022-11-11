@@ -7,8 +7,7 @@ import responses.StandardSuccessResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FilmeDAO {
 
@@ -17,8 +16,6 @@ public class FilmeDAO {
     public FilmeDAO(DAO dao) {
         this.dao = dao;
     }
-
-
 
 
     private void addFilme(int id) throws SQLException {
@@ -35,7 +32,7 @@ public class FilmeDAO {
 
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT * FROM usuario_avalia_filme " +
-                "WHERE filme_id = ?")) {
+                        "WHERE filme_id = ?")) {
             statement.setInt(1, filmeID);
             return Avaliacao.parseAvaliacoes(statement.executeQuery());
         }
@@ -62,9 +59,9 @@ public class FilmeDAO {
     public List<Categoria> getCategorias(int filmeID) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT categoria.id, categoria.nome FROM categoria " +
-                "JOIN filme_possui_categoria ON filme_possui_categoria.categoria_id = categoria.id " +
-                "JOIN filme ON filme.id = filme_possui_categoria.filme_id " +
-                "WHERE filme.id = ?")) {
+                        "JOIN filme_possui_categoria ON filme_possui_categoria.categoria_id = categoria.id " +
+                        "JOIN filme ON filme.id = filme_possui_categoria.filme_id " +
+                        "WHERE filme.id = ?")) {
 
             statement.setInt(1, filmeID);
             return Categoria.parseCategorias(statement.executeQuery());
@@ -98,7 +95,7 @@ public class FilmeDAO {
                         "VALUES (?,?)")) {
             statement.setInt(1, usuarioID);
             statement.setInt(2, filmeID);
-            return  statement.executeUpdate();
+            return statement.executeUpdate();
         }
     }
 
@@ -113,6 +110,18 @@ public class FilmeDAO {
 
     }
 
+
+    public List<Avaliacao> listUsuarioAvaliacoes(int usuarioID) throws SQLException {
+        try (PreparedStatement statement = dao.getConexao().prepareStatement(
+                "SELECT * FROM usuario_avalia_filme " +
+                        "WHERE usuario_id = ?")) {
+            statement.setInt(1, usuarioID);
+
+
+            return Avaliacao.parseAvaliacoes(statement.executeQuery());
+        }
+    }
+
     public Avaliacao usuarioAvaliacao(int usuarioID, int filmeID) throws SQLException {
         try (PreparedStatement statement = dao.getConexao().prepareStatement(
                 "SELECT * FROM usuario_avalia_filme " +
@@ -121,7 +130,7 @@ public class FilmeDAO {
             statement.setInt(2, usuarioID);
 
             List<Avaliacao> avaliacoes = Avaliacao.parseAvaliacoes(statement.executeQuery());
-            return (avaliacoes.size() > 0)? avaliacoes.get(0) : null;
+            return (avaliacoes.size() > 0) ? avaliacoes.get(0) : null;
         }
     }
 
@@ -181,8 +190,8 @@ public class FilmeDAO {
                         "VALUES (?,?,?,?,?)")) {
             statement.setInt(1, avaliacao.getFilmeID());
             statement.setBoolean(2, avaliacao.getGostou() != null && avaliacao.getGostou());
-            statement.setInt(3, (avaliacao.getPontuacao() == null)? 0 : avaliacao.getPontuacao());
-            statement.setString(4, (avaliacao.getFeedback() == null)? "": avaliacao.getFeedback());
+            statement.setInt(3, (avaliacao.getPontuacao() == null) ? 0 : avaliacao.getPontuacao());
+            statement.setString(4, (avaliacao.getFeedback() == null) ? "" : avaliacao.getFeedback());
             statement.setInt(5, avaliacao.getUsuarioID());
 
             return statement.executeUpdate() > 0;

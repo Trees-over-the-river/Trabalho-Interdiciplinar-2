@@ -2,7 +2,6 @@ package service;
 
 
 import com.google.gson.Gson;
-import dao.CategoriaDAO;
 import dao.UsuarioDAO;
 import model.Usuario;
 import responses.StandardErrorResponse;
@@ -18,30 +17,31 @@ public class UsuarioService {
 
 
     private final UsuarioDAO usuarioDAO;
-    private final CategoriaDAO categoriaDAO;
 
-    public UsuarioService(UsuarioDAO usuarioDAO, CategoriaDAO categoriaDAO) {
+    public UsuarioService(UsuarioDAO usuarioDAO) {
         this.usuarioDAO = usuarioDAO;
-        this.categoriaDAO = categoriaDAO;
     }
 
 
 
-    public Object getUsuario(Request request, Response response) throws SQLException {
+    public Object getUsuario(Request request, Response ignoredResponse) throws SQLException {
         int id = request.session().attribute("id");
 
+        System.out.println("[UsuarioService] Obtendo informações do usuário ID=" + id);
         Usuario usuario = usuarioDAO.getByID(id);
 
         if (usuario == null) {
+            System.out.println("[UsuarioService] Usuário inexistente");
             return new StandardErrorResponse("Usuário not found");
         }
-
+        System.out.println("[UsuarioService] Devolvendo informações do usuário");
         usuario.setSenha(null);
         usuario.setId(null);
+
         return new StandardSuccessResponse(usuario);
     }
 
-    public Object getUsuarioID(Request request, Response response) throws SQLException {
+    public Object getUsuarioID(Request request, Response ignoredResponse) throws SQLException {
         int userID = Integer.parseInt(request.params(":id"));
 
         Usuario usuario = usuarioDAO.getByID(userID);
@@ -127,7 +127,7 @@ public class UsuarioService {
         return new StandardSuccessResponse("Senha alterada");
     }
 
-    public Object deleteUsuario(Request request, Response response) throws SQLException {
+    public Object deleteUsuario(Request request, Response ignoredResponse) throws SQLException {
         int id = request.session().attribute("id");
         usuarioDAO.delete(id);
         request.session(false);
@@ -138,13 +138,18 @@ public class UsuarioService {
     public Object login(Request request, Response response) throws SQLException {
         var body = new Gson().fromJson(request.body(), HashMap.class);
 
+        System.out.println("[UsuarioService] Usuário \""+ body.get("email") + "\" tentando conectar");
+
         Usuario usuario = usuarioDAO.authenticate(body.get("email").toString(), body.get("senha").toString());
 
+
         if (usuario != null) {
+            System.out.println("[UsuarioService] Retornando cookie de sessão");
             request.session().attribute("id", usuario.getId());
             return new StandardSuccessResponse("Logado");
         }
 
+        System.out.println("[UsuarioService] Falha no login");
         response.status(404);
         return new StandardErrorResponse("Usuário inexistente");
     }
@@ -162,7 +167,7 @@ public class UsuarioService {
 
     }
 
-    public Object logout(Request request, Response response) {
+    public Object logout(Request request, Response ignoredResponse) {
         request.session().invalidate();
         return new StandardSuccessResponse("Logout efetuado!");
     }

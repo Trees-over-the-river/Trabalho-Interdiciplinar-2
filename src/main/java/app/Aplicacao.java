@@ -32,7 +32,7 @@ public class Aplicacao {
     );
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
-    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao), new CategoriaDAO(dao));
+    private static final UsuarioService usuarioService = new UsuarioService(new UsuarioDAO(dao));
     private static final FilmeService filmeService = new FilmeService(new FilmeDAO(dao));
 
     private static final CategoriaService categoriaService = new CategoriaService(new CategoriaDAO(dao));
@@ -56,7 +56,6 @@ public class Aplicacao {
 
         staticFiles.location("/public");
 
-
         get("/",(request, response) -> {
             response.redirect("/front-end/index.html");
             return new StandardSuccessResponse(null);
@@ -65,9 +64,12 @@ public class Aplicacao {
 
         logger.info("Starting the server at http://" + HOST + ":" + PORT);
 
+
         defaultResponseTransformer(gson::toJson);
 
         path("/api", () -> {
+            before("/*", (request, response) -> System.out.println("\n\n[Aplicacao]Conexão em \"" + request.uri()+"\""));
+            after("/*", (request, response) -> System.out.println("[Aplicacao] Conexão encerrada"));
             path("/usuario", () -> {
                 before("/*", (request, response) -> {
                    if (request.session().attribute("id") == null) halt(403);
