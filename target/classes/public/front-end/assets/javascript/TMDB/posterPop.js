@@ -10,7 +10,6 @@ const selectGen = document.querySelector('#categorias-destaque');
 
 if(IDGen != null) {
     const nossoComunista = GENRES.find(e => IDGen == e.id);
-    console.log(nossoComunista);
     const firstGen = document.querySelector(`#categorias-destaque option[value="${nossoComunista.name}"]`);
 
     firstGen.selected = true;
@@ -73,7 +72,7 @@ function gambiarra(genre, postersNumber = 6, pageNumber = 1) {
 
     if (postersNumber === 6 || (!movies[(20 * page) - 1] && postersNumber >= (20 * (page - 1)))) {
 
-        console.log('carregando...' + genre);
+        console.log('carregando...');
         if (genre != null) {
             API_POPULAR = `${API_DISCOVER}&with_genres=${genre.id}&page=${pageNumber}`;
 
